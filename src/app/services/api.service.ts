@@ -30,8 +30,8 @@ export interface Waitlist {
 export class ApiService {
   //private baseUrl = 'https://eliteclub-api.onrender.com/api'; // Replace with your Express API URL
 
-  //private apiUrl = 'https://eliteclub-api.onrender.com/api';
-  private apiUrl = 'http://localhost:3000/api';
+  private apiUrl = 'https://eliteclub-api.onrender.com/api';
+  //private apiUrl = 'http://localhost:3000/api';
 
   constructor(
     private http: HttpClient,
