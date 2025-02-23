@@ -1,0 +1,41 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title class="ion-text-center">Home</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <div align="center">
+    <h1 class="title mt-5">WELCOME TO ELITE CLUB</h1>
+    <h4 class="text-white">Shuffle up and deal!</h4>
+    <p class="text-white">
+      Your premier destination for exciting poker action in a welcoming
+      atmosphere. Join us today for thrilling cash games and tournaments!
+    </p>
+  </div>
+
+  <ion-card>
+    <img src="../../assets/Poker-Club-001-1080.png" alt="Slide 1" />
+  </ion-card>
+
+  <ion-card class="mt-4">
+    <ion-card-header>
+      <ion-card-title>Today's Schedule</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <div *ngFor="let day of schedule">
+        <div *ngIf="day.day === getCurrentDay()">
+          <h5>{{ day.time }}</h5>
+          <div *ngFor="let game of day.games">
+            <strong>{{ game.type }}</strong>
+            <p>{{ game.limit }}</p>
+          </div>
+          <p class="text-muted mt-2">{{ day.description }}</p>
+        </div>
+      </div>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

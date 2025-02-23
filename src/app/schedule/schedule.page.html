@@ -1,0 +1,41 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title class="ion-text-center">Schedule</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <h2 class="text-center text-warning">Weekly Cash Game Schedule</h2>
+  <p class="text-center">
+    Club Elite is open seven days a week. Monday-Friday we open at 7pm and close
+    at 4am. On weekends and holidays, we open at 3pm and close at 4am.
+  </p>
+
+  <ion-accordion-group>
+    <ion-accordion
+      *ngFor="let day of schedule; let i = index"
+      [value]="'day' + i"
+    >
+      <ion-item slot="header" color="light">
+        <ion-label>{{ day.day }}</ion-label>
+      </ion-item>
+      <div class="ion-padding" slot="content">
+        <ion-card>
+          <ion-card-header class="bg-dark text-white">
+            <small>{{ day.time }}</small>
+          </ion-card-header>
+          <ion-card-content>
+            <p *ngFor="let game of day.games">
+              <strong>{{ game.type }}</strong><br />
+              <span>{{ game.limit }}</span>
+            </p>
+            <p class="text-muted">{{ day.description }}</p>
+          </ion-card-content>
+        </ion-card>
+      </div>
+    </ion-accordion>
+  </ion-accordion-group>
+</ion-content>
