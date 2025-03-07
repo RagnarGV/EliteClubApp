@@ -28,13 +28,9 @@ export interface Waitlist {
   providedIn: 'root',
 })
 export class ApiService {
-  private apiUrl = 'https://eliteclub-api.onrender.com/api';
-  //private apiUrl = 'http://localhost:3000/api';
+  private apiUrl = 'https://clubelite.ca/apis';
 
-  constructor(
-    private http: HttpClient,
-    private toastController: ToastController
-  ) {}
+  constructor(private toastController: ToastController) {}
 
   async getSchedule() {
     const response = await axios.get(this.apiUrl + '/schedule');
