@@ -1,5 +1,5 @@
 {
-  "name": "EliteClubApp",
+  "name": "elite-club-app",
   "version": "0.0.1",
   "author": "Ionic Framework",
   "homepage": "https://ionicframework.com/",
@@ -24,6 +24,7 @@
     "@angular/router": "^19.0.0",
     "@capacitor/android": "7.0.1",
     "@capacitor/app": "7.0.0",
+    "@capacitor/browser": "^7.0.0",
     "@capacitor/core": "7.0.1",
     "@capacitor/haptics": "7.0.0",
     "@capacitor/ios": "7.0.1",

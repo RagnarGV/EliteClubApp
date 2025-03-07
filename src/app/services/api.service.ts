@@ -29,6 +29,7 @@ export interface Waitlist {
 })
 export class ApiService {
   private apiUrl = 'https://clubelite.ca/apis';
+  //private apiUrl = 'http://localhost:3000/api';
 
   constructor(private toastController: ToastController) {}
 
@@ -44,6 +45,11 @@ export class ApiService {
 
   async getGalleryItems() {
     const response = await axios.get(this.apiUrl + '/gallery');
+    return response.data;
+  }
+
+  async getSpecialEvents() {
+    const response = await axios.get(this.apiUrl + '/special-events');
     return response.data;
   }
 

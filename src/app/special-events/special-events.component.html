@@ -1,0 +1,25 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Special Events</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding">
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <ion-card
+    *ngFor="let event of specialEvents"
+    class="mt-4 ion-radius"
+    (click)="openUrl(event.url)"
+  >
+    <ion-card-header>
+      <ion-card-title>{{ event.event_name }}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-img [src]="event.image" alt="Event Image" />
+      <div>
+        <h5>{{ event.event_name }}</h5>
+      </div>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

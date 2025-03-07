@@ -22,9 +22,11 @@ export const routes: Routes = [
           import('../schedule/schedule.page').then((m) => m.SchedulePage),
       },
       {
-        path: 'tab3',
+        path: 'special-events',
         loadComponent: () =>
-          import('../tab3/tab3.page').then((m) => m.Tab3Page),
+          import('../special-events/special-events.component').then(
+            (m) => m.SpecialEventsComponent
+          ),
       },
       {
         path: '',

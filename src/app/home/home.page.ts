@@ -14,6 +14,7 @@ import {
 } from '@ionic/angular/standalone';
 import { CommonModule } from '@angular/common';
 import { ApiService, Schedule } from '../services/api.service';
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.page.html',
@@ -35,11 +36,13 @@ import { ApiService, Schedule } from '../services/api.service';
 })
 export class HomePage implements OnInit {
   schedule: Schedule[] = [];
+
   constructor(private scheduleService: ApiService) {}
 
   ngOnInit() {
     this.getSchedule();
   }
+
   getSchedule() {
     this.scheduleService.getSchedule().then((schedule) => {
       this.schedule = schedule;
@@ -53,6 +56,7 @@ export class HomePage implements OnInit {
       event.target.complete();
     }
   }
+
   getCurrentDay(): string {
     const days = [
       'Sunday',
