@@ -2,3 +2,11 @@ ion-img {
   object-fit: cover;
   height: 200px;
 }
+
+ion-card {
+  border-radius: 15px;
+}
+
+ion-img::part(image) {
+  border-radius: 10px;
+}

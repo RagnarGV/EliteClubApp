@@ -26,9 +26,9 @@ import {
 import { ApiService } from '../services/api.service';
 
 @Component({
-  selector: 'app-waitlist',
-  templateUrl: './waitlist.page.html',
-  styleUrls: ['./waitlist.page.scss'],
+  selector: 'app-toc',
+  templateUrl: './toc.page.html',
+  styleUrls: ['./toc.page.scss'],
   standalone: true,
   imports: [
     IonHeader,
@@ -51,7 +51,7 @@ import { ApiService } from '../services/api.service';
   ],
   providers: [ApiService],
 })
-export class WaitlistPage implements OnInit {
+export class TocPage implements OnInit {
   waitlistForm: FormGroup;
   waitlist: any[] = [];
   errorMessage: string = '';
@@ -97,22 +97,15 @@ export class WaitlistPage implements OnInit {
     }
   }
   async getTodayGames() {
-    this.waitlistService.getSchedule().then((response) => {
-      response.forEach((day: { day: string; games: any[] }) => {
-        day.games.forEach((game: { date: string }) => {
-          if (
-            day.day ===
-            new Date().toLocaleDateString('en-US', { weekday: 'long' })
-          ) {
-            console.log(game);
-            this.todayGames.push(game);
-          }
-        });
+    this.waitlistService.getTocSettings().then((response) => {
+      response.forEach((game: { gameType: string }) => {
+        console.log(game.gameType);
+        this.todayGames.push(game);
       });
     });
   }
   async getWaitlist() {
-    this.waitlistService.getWaitlist().then((response) => {
+    this.waitlistService.getTOC().then((response) => {
       console.log(response);
       this.waitlist = response;
     });
@@ -127,7 +120,7 @@ export class WaitlistPage implements OnInit {
           formData.phone
         );
         if (isVerified) {
-          await this.waitlistService.addToWaitlist(formData);
+          await this.waitlistService.addToTOCWaitlist(formData);
           this.waitlistForm.reset();
           this.waitlistForm.controls['phone'].setValue('+1');
           this.getWaitlist();
@@ -172,7 +165,7 @@ export class WaitlistPage implements OnInit {
     );
     if (isVerified) {
       await this.waitlistService.saveUser(formData);
-      await this.waitlistService.addToWaitlist(formData);
+      await this.waitlistService.addToTOCWaitlist(formData);
       this.authMessage = 'OTP verified! User authenticated.';
       this.firstUserModal = false;
       this.waitlistForm.reset();

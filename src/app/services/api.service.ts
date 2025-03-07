@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+
 import axios from 'axios';
 import { ToastController } from '@ionic/angular/standalone';
 export interface Game {
@@ -43,6 +42,11 @@ export class ApiService {
     return response.data;
   }
 
+  async getTOC() {
+    const response = await axios.get(this.apiUrl + '/toc');
+    return response.data;
+  }
+
   async getGalleryItems() {
     const response = await axios.get(this.apiUrl + '/gallery');
     return response.data;
@@ -50,6 +54,11 @@ export class ApiService {
 
   async getSpecialEvents() {
     const response = await axios.get(this.apiUrl + '/special-events');
+    return response.data;
+  }
+
+  async getTocSettings() {
+    const response = await axios.get(this.apiUrl + '/toc-settings');
     return response.data;
   }
 
@@ -96,6 +105,22 @@ export class ApiService {
       }
     }
   }
+
+  async addToTOCWaitlist(userData: any): Promise<void> {
+    try {
+      await axios.post(`${this.apiUrl}/toc`, userData);
+    } catch (error: any) {
+      if (error.status === 400) {
+        const toast = await this.toastController.create({
+          message: 'You are already on the waitlist.',
+          duration: 2000,
+          position: 'bottom',
+        });
+        await toast.present();
+      }
+    }
+  }
+
   async sendOtp(phoneNumber: string): Promise<boolean> {
     console.log(phoneNumber);
     try {
