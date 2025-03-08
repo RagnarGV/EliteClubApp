@@ -7,18 +7,20 @@ export const routes: Routes = [
   },
   {
     path: 'waitlist',
-    loadComponent: () => import('./waitlist/waitlist.page').then( m => m.WaitlistPage)
+    loadComponent: () =>
+      import('./waitlist/waitlist.page').then((m) => m.WaitlistPage),
   },
   {
     path: 'schedule',
-    loadComponent: () => import('./schedule/schedule.page').then( m => m.SchedulePage)
+    loadComponent: () =>
+      import('./schedule/schedule.page').then((m) => m.SchedulePage),
   },
   {
     path: 'home',
-    loadComponent: () => import('./home/home.page').then( m => m.HomePage)
+    loadComponent: () => import('./home/home.page').then((m) => m.HomePage),
   },
   {
-    path: 'toc',
-    loadComponent: () => import('./toc/toc.page').then( m => m.TocPage)
+    path: 'toc/:id',
+    loadComponent: () => import('./toc/toc.page').then((m) => m.TocPage),
   },
 ];

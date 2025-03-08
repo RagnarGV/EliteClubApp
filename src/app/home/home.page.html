@@ -38,23 +38,24 @@
       </div>
     </ion-card-content>
   </ion-card>
-  @if(toc_is_live === true){
+  @for(toc_event of toc; track toc_event.id;){ @if(toc_event.is_live == true){
+
   <ion-card class="mt-4">
     <ion-card-header>
-      <ion-card-title>Tournament of Champoins is live</ion-card-title>
+      <ion-card-title>{{toc_event.day_date}} TOC is live</ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <div *ngFor="let toc_event of toc">
+      <div>
         <div>
           <h2>{{ toc_event.gameType }}</h2>
           <p class="text-muted mt-2">{{ toc_event.seats }}</p>
         </div>
         <br />
-        <ion-button expand="block" type="button" (click)="goToToc()"
+        <ion-button expand="block" type="button" (click)="goToToc(toc_event.id)"
           >Grab a seat</ion-button
         >
       </div>
     </ion-card-content>
   </ion-card>
-  }
+  } }
 </ion-content>

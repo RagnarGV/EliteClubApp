@@ -42,8 +42,8 @@ export class ApiService {
     return response.data;
   }
 
-  async getTOC() {
-    const response = await axios.get(this.apiUrl + '/toc');
+  async getTOC(id: any) {
+    const response = await axios.get(this.apiUrl + '/toc/' + id);
     return response.data;
   }
 
@@ -59,6 +59,11 @@ export class ApiService {
 
   async getTocSettings() {
     const response = await axios.get(this.apiUrl + '/toc-settings');
+    return response.data;
+  }
+
+  async getTocSettingsById(id: any) {
+    const response = await axios.get(this.apiUrl + '/toc-settings/' + id);
     return response.data;
   }
 
@@ -106,9 +111,9 @@ export class ApiService {
     }
   }
 
-  async addToTOCWaitlist(userData: any): Promise<void> {
+  async addToTOCWaitlist(id: any, userData: any): Promise<void> {
     try {
-      await axios.post(`${this.apiUrl}/toc`, userData);
+      await axios.post(`${this.apiUrl}/toc/` + id, userData);
     } catch (error: any) {
       if (error.status === 400) {
         const toast = await this.toastController.create({

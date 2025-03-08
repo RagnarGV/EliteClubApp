@@ -88,9 +88,7 @@
     <ion-list *ngIf="waitlist.length > 0; else noData">
       <ion-item *ngFor="let entry of waitlist">
         <ion-label>
-          {{ entry.firstName }} {{ entry.lastInitial }} - {{ entry.phone }}
-          <span *ngIf="entry.gameType"> ({{ entry.gameType }})</span>
-          <span *ngIf="entry.smsUpdates"> [SMS Updates Enabled]</span>
+          {{ entry.firstName }} {{ entry.lastInitial }}
           <span *ngIf="entry.checkedIn"> ✔️</span>
         </ion-label>
       </ion-item>

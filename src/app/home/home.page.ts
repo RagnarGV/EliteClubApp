@@ -82,7 +82,8 @@ export class HomePage implements OnInit {
     const today = new Date();
     return days[today.getDay()];
   }
-  goToToc() {
-    this.route.navigate(['/toc']);
+  goToToc(id: any) {
+    console.log(id);
+    this.route.navigate(['/toc', id]);
   }
 }

@@ -24,6 +24,7 @@ import {
   IonRadioGroup,
 } from '@ionic/angular/standalone';
 import { ApiService } from '../services/api.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-toc',
@@ -63,8 +64,13 @@ export class TocPage implements OnInit {
   authMessage: string = '';
   recaptchaVerifier: any;
   todayGames: any[] = [];
+  id: any;
 
-  constructor(private fb: FormBuilder, private waitlistService: ApiService) {
+  constructor(
+    private _route: ActivatedRoute,
+    private fb: FormBuilder,
+    private waitlistService: ApiService
+  ) {
     this.waitlistForm = this.fb.group({
       firstName: ['', [Validators.required]],
       lastInitial: ['', [Validators.required, Validators.maxLength(1)]],
@@ -81,6 +87,9 @@ export class TocPage implements OnInit {
   }
 
   ngOnInit(): void {
+    this._route.params.subscribe((params: any) => (this.id = params['id']));
+    // this.id = +!this._route.snapshot.paramMap.get('id');
+    console.log(this.id);
     this.getWaitlist();
     this.getTodayGames();
   }
@@ -97,15 +106,13 @@ export class TocPage implements OnInit {
     }
   }
   async getTodayGames() {
-    this.waitlistService.getTocSettings().then((response) => {
-      response.forEach((game: { gameType: string }) => {
-        console.log(game.gameType);
-        this.todayGames.push(game);
-      });
+    this.waitlistService.getTocSettingsById(this.id).then((response) => {
+      console.log(response.gameType);
+      this.todayGames.push(response);
     });
   }
   async getWaitlist() {
-    this.waitlistService.getTOC().then((response) => {
+    this.waitlistService.getTOC(this.id).then((response) => {
       console.log(response);
       this.waitlist = response;
     });
@@ -114,13 +121,14 @@ export class TocPage implements OnInit {
   async onSubmit() {
     if (this.waitlistForm.valid) {
       const formData = this.waitlistForm.value;
+
       console.log(formData);
       try {
         const isVerified = await this.waitlistService.checkVerification(
           formData.phone
         );
         if (isVerified) {
-          await this.waitlistService.addToTOCWaitlist(formData);
+          await this.waitlistService.addToTOCWaitlist(this.id, formData);
           this.waitlistForm.reset();
           this.waitlistForm.controls['phone'].setValue('+1');
           this.getWaitlist();
@@ -165,7 +173,7 @@ export class TocPage implements OnInit {
     );
     if (isVerified) {
       await this.waitlistService.saveUser(formData);
-      await this.waitlistService.addToTOCWaitlist(formData);
+      await this.waitlistService.addToTOCWaitlist(this.id, formData);
       this.authMessage = 'OTP verified! User authenticated.';
       this.firstUserModal = false;
       this.waitlistForm.reset();
