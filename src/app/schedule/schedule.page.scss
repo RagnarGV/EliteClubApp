@@ -9,69 +9,79 @@ ion-content {
   font-family: Arial, Helvetica, sans-serif;
   font-style: italic;
 }
-.welcome-section {
-  text-align: center;
-  padding: 20px;
+.text-gold {
+  color: goldenrod;
 }
-
-.subtitle,
-.description {
-  color: #f8f9fa;
+.text-muted {
+  color: rgba(255, 255, 255, 0.7);
 }
-
-.image-card {
-  border-radius: 12px;
-  transition: transform 0.3s ease-in-out;
+.schedule-header {
+  background: rgba(255, 215, 0, 0.1);
+  font-weight: bold;
+  border-radius: 10px;
+  border-bottom: 1px solid goldenrod;
+  transition: all 0.3s;
 }
-.image-card:hover img {
-  transform: scale(1.05);
+.schedule-header:hover {
+  background: rgba(255, 215, 0, 0.2);
 }
-
-.schedule-card,
-.toc-card {
-  background: #222;
-  color: white;
-  border-radius: 12px;
+.schedule-card {
+  background: rgba(0, 0, 0, 0.7);
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
 }
-
-/* Animations */
-.animate-fade-in {
-  animation: fadeIn 1s ease-in;
+.schedule-content {
+  padding: 10px;
+  background: transparent;
 }
-.animate-slide-up {
-  animation: slideUp 0.5s ease-out;
+.game-info {
+  margin-bottom: 8px;
 }
-.animate-zoom-in {
-  animation: zoomIn 1s ease-in-out;
+.schedule-description {
+  font-style: italic;
+  opacity: 0.9;
 }
-
 @keyframes fadeIn {
   from {
     opacity: 0;
+    transform: translateY(10px);
   }
   to {
     opacity: 1;
-  }
-}
-
-@keyframes slideUp {
-  from {
-    transform: translateY(20px);
-    opacity: 0;
-  }
-  to {
     transform: translateY(0);
+  }
+}
+@keyframes glow {
+  0% {
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+  }
+  100% {
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.2);
+  }
+}
+@keyframes slideIn {
+  from {
+    transform: translateX(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
     opacity: 1;
   }
 }
 
-@keyframes zoomIn {
-  from {
-    transform: scale(0.9);
-    opacity: 0;
-  }
-  to {
-    transform: scale(1);
-    opacity: 1;
-  }
+.animate-fade-in {
+  animation: fadeIn 0.8s ease-in-out;
+}
+.animate-glow {
+  animation: glow 1.5s infinite;
+}
+.animate-slide-in {
+  animation: slideIn 0.5s ease-out;
+}
+.accordion-content {
+  transition: all 0.3s ease-in-out;
 }

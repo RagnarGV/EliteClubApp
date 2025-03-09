@@ -1,4 +1,4 @@
-<ion-header>
+<!-- <ion-header>
   <ion-toolbar>
     <ion-title class="ion-text-center">Schedule</ion-title>
   </ion-toolbar>
@@ -38,4 +38,94 @@
       </div>
     </ion-accordion>
   </ion-accordion-group>
+</ion-content> -->
+<ion-header>
+  <ion-toolbar>
+    <ion-title class="ion-text-center text-gold">Schedule</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="animate-fade-in">
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <div class="text-center">
+    <h2 class="page-title text-gold">Weekly Cash Game Schedule</h2>
+    <p class="animate-fade-in">
+      Club Elite is open seven days a week.<br />
+      <strong>Monday - Friday:</strong> 7 PM - 4 AM<br />
+      <strong>Weekends & Holidays:</strong> 3 PM - 4 AM
+    </p>
+  </div>
+
+  <ion-accordion-group class="ion-padding">
+    <ion-accordion
+      *ngFor="let day of schedule; let i = index"
+      [value]="'day' + i"
+      class="bg-transparent"
+    >
+      <ion-item slot="header" class="schedule-header">
+        <ion-label>{{ day.day }}</ion-label>
+      </ion-item>
+      <div slot="content" class="schedule-content">
+        <ion-card class="schedule-card animate-glow">
+          <ion-card-header>
+            <h3 class="text-gold">{{ day.time }}</h3>
+          </ion-card-header>
+          <ion-card-content>
+            <div *ngFor="let game of day.games" class="game-info">
+              <strong>{{ game.type }}</strong>
+              <p>{{ game.limit }}</p>
+            </div>
+            <p class="schedule-description">{{ day.description }}</p>
+          </ion-card-content>
+        </ion-card>
+      </div>
+    </ion-accordion>
+  </ion-accordion-group>
 </ion-content>
+<!-- <ion-header>
+  <ion-toolbar>
+    <ion-title class="ion-text-center">Schedule</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding animate-fade-in">
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <h2 class="page-title text-center text-warning animate-glow">
+    Weekly Cash Game Schedule
+  </h2>
+  <p class="text-center animate-fade-in">
+    Club Elite is open seven days a week. Monday-Friday we open at 7pm and close
+    at 4am. On weekends and holidays, we open at 3pm and close at 4am.
+  </p>
+
+  <ion-accordion-group>
+    <ion-accordion
+      *ngFor="let day of schedule; let i = index"
+      [value]="'day' + i"
+      class="accordion-item animate-slide-in"
+    >
+      <ion-item slot="header" color="light">
+        <ion-label>{{ day.day }}</ion-label>
+      </ion-item>
+      <div class="accordion-content animate-glow" slot="content">
+        <ion-card>
+          <ion-card-header class="bg-dark text-white">
+            <small>{{ day.time }}</small>
+          </ion-card-header>
+          <ion-card-content>
+            <p *ngFor="let game of day.games" class="animate-fade-in">
+              <strong>{{ game.type }}</strong><br />
+              <span>{{ game.limit }}</span>
+            </p>
+            <p class="text-muted animate-fade-in">{{ day.description }}</p>
+          </ion-card-content>
+        </ion-card>
+      </div>
+    </ion-accordion>
+  </ion-accordion-group>
+</ion-content> -->
