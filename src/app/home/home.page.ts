@@ -84,6 +84,6 @@ export class HomePage implements OnInit {
   }
   goToToc(id: any) {
     console.log(id);
-    this.route.navigate(['/toc', id]);
+    this.route.navigate(['/tabs/toc', id]);
   }
 }

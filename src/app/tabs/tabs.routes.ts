@@ -8,8 +8,13 @@ export const routes: Routes = [
     children: [
       {
         path: 'home',
-        loadComponent: () =>
-          import('../home/home.page').then((m) => m.HomePage),
+        children: [
+          {
+            path: '',
+            loadComponent: () =>
+              import('../home/home.page').then((m) => m.HomePage),
+          },
+        ],
       },
       {
         path: 'waitlist',
@@ -32,6 +37,10 @@ export const routes: Routes = [
         path: '',
         redirectTo: '/tabs/home',
         pathMatch: 'full',
+      },
+      {
+        path: 'toc/:id',
+        loadComponent: () => import('../toc/toc.page').then((m) => m.TocPage),
       },
     ],
   },

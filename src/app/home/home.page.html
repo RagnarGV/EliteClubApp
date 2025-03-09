@@ -1,4 +1,4 @@
-<ion-header>
+<!-- <ion-header>
   <ion-toolbar>
     <ion-title class="ion-text-center">Home</ion-title>
   </ion-toolbar>
@@ -58,4 +58,75 @@
     </ion-card-content>
   </ion-card>
   } }
+</ion-content> -->
+<ion-header>
+  <ion-toolbar>
+    <ion-title class="ion-text-center">Home</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <h1 class="title animate-fade-in">WELCOME TO ELITE CLUB</h1>
+  <!-- <ion-card class="image-card bg-transparent animate-zoom-in"> </ion-card> -->
+  <div class="welcome-section">
+    <img
+      class="image-card bg-transparent animate-zoom-in"
+      src="../../assets/club_logo_2.png"
+      alt="Poker Club"
+    />
+    <h4 class="subtitle animate-slide-up">Shuffle up and deal!</h4>
+    <p class="description animate-slide-up">
+      Your premier destination for exciting poker action in a welcoming
+      atmosphere. Join us today for thrilling cash games and tournaments!
+    </p>
+  </div>
+  <ion-card-header>
+    <ion-card-title>Today's Schedule</ion-card-title>
+  </ion-card-header>
+  <ion-card class="schedule-card animate-fade-in animate-slide-up">
+    <ion-card-content>
+      <ng-container *ngFor="let day of schedule">
+        <div *ngIf="day.day === getCurrentDay()">
+          <h2 class="text-center mb-3">{{ day.time }}</h2>
+          <ng-container *ngFor="let game of day.games">
+            <div class="row">
+              <div class="col">
+                <h2><strong>{{ game.type }}</strong></h2>
+              </div>
+              <div class="col">
+                <h2 class="float-end"><p>{{ game.limit }}</p></h2>
+              </div>
+            </div>
+          </ng-container>
+          <p class="text-center mt-3">{{ day.description }}</p>
+        </div>
+      </ng-container>
+    </ion-card-content>
+  </ion-card>
+
+  <ng-container *ngFor="let toc_event of toc">
+    <ng-container *ngIf="toc_event.is_live == true">
+      <ion-card-header>
+        <ion-card-title>{{ toc_event.day_date }} TOC is live</ion-card-title>
+      </ion-card-header>
+      <ion-card class="toc-card animate-slide-up">
+        <ion-card-content>
+          <div>
+            <h2 class="mb-3">{{ toc_event.gameType }}</h2>
+            <h2>{{ toc_event.description }}</h2>
+            <p class="text-muted mt-2">{{ toc_event.seats }} seats available</p>
+            <ion-button
+              expand="block"
+              (click)="goToToc(toc_event.id)"
+              color="warning"
+              >Grab a seat</ion-button
+            >
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </ng-container>
+  </ng-container>
 </ion-content>
