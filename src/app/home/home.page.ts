@@ -16,7 +16,7 @@ import {
 } from '@ionic/angular/standalone';
 import { CommonModule } from '@angular/common';
 import { ApiService, Schedule } from '../services/api.service';
-
+import { LoadingController } from '@ionic/angular';
 @Component({
   selector: 'app-home',
   templateUrl: './home.page.html',
@@ -41,23 +41,32 @@ export class HomePage implements OnInit {
   schedule: Schedule[] = [];
   toc_is_live: boolean = false;
   toc: any;
-
+  toc_count: number = 0;
+  loading: boolean = true;
   constructor(private scheduleService: ApiService, private route: Router) {}
 
-  ngOnInit() {
+  async ngOnInit() {
+    this.loading = true;
     this.getSchedule();
     this.getTocSettings();
   }
   getTocSettings() {
     this.scheduleService.getTocSettings().then((toc) => {
       this.toc = toc;
+      toc.forEach((element: any) => {
+        if (element.is_live == true) {
+          this.toc_count++;
+        }
+      });
+
       this.toc_is_live = toc?.[0]?.is_live == 1;
-      console.log(this.toc);
+      console.log(this.toc_count);
     });
   }
   getSchedule() {
-    this.scheduleService.getSchedule().then((schedule) => {
+    this.scheduleService.getSchedule().then(async (schedule) => {
       this.schedule = schedule;
+      this.loading = false;
     });
   }
 

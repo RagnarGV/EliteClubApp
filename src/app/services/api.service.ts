@@ -126,12 +126,11 @@ export class ApiService {
     }
   }
 
-  async sendOtp(phoneNumber: string): Promise<boolean> {
-    console.log(phoneNumber);
+  async sendOtp(phoneNumber: any): Promise<boolean> {
+    const formData = new FormData();
+    formData.append('phoneNumber', phoneNumber);
     try {
-      const response = await axios.post(`${this.apiUrl}/send-otp`, {
-        phoneNumber,
-      });
+      const response = await axios.post(`${this.apiUrl}/send-otp`, formData);
       return response.data.success;
     } catch (error: any) {
       return error.data.success;
@@ -140,10 +139,10 @@ export class ApiService {
 
   async verifyOtp(phoneNumber: string, otp: string): Promise<boolean> {
     try {
-      const response = await axios.post(`${this.apiUrl}/verify-otp`, {
-        phoneNumber,
-        otp,
-      });
+      const formData = new FormData();
+      formData.append('phoneNumber', phoneNumber);
+      formData.append('otp', otp);
+      const response = await axios.post(`${this.apiUrl}/verify-otp`, formData);
       return response.data.success;
     } catch (error: any) {
       return error.data.success;

@@ -106,11 +106,16 @@
       </ng-container>
     </ion-card-content>
   </ion-card>
-
+  <h2
+    *ngIf="toc_count > 0"
+    class="page-title ion-text-center animate-fade-in animate-slide-up"
+  >
+    Tournament of Champoins
+  </h2>
   <ng-container *ngFor="let toc_event of toc">
     <ng-container *ngIf="toc_event.is_live == true">
       <ion-card-header>
-        <ion-card-title>{{ toc_event.day_date }} TOC is live</ion-card-title>
+        <ion-card-title>{{ toc_event.day_date }} </ion-card-title>
       </ion-card-header>
       <ion-card class="toc-card animate-slide-up">
         <ion-card-content>

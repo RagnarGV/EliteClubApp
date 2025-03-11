@@ -22,6 +22,7 @@ import {
   IonRefresher,
   IonRefresherContent,
   IonRadioGroup,
+  IonCard,
 } from '@ionic/angular/standalone';
 import { ApiService } from '../services/api.service';
 
@@ -48,6 +49,7 @@ import { ApiService } from '../services/api.service';
     IonRefresher, // Add this
     IonRefresherContent, // Add this
     IonRadioGroup,
+    IonCard,
   ],
   providers: [ApiService],
 })
@@ -61,7 +63,7 @@ export class WaitlistPage implements OnInit {
   verificationId: any;
   verificationSent: boolean = false;
   authMessage: string = '';
-  recaptchaVerifier: any;
+
   todayGames: any[] = [];
 
   constructor(private fb: FormBuilder, private waitlistService: ApiService) {
@@ -87,11 +89,16 @@ export class WaitlistPage implements OnInit {
 
   async handleRefresh(event: any) {
     try {
-      await this.getWaitlist();
-      await this.getTodayGames();
       this.waitlistForm.reset();
       this.waitlistForm.controls['phone'].setValue('+1');
       this.todayGames = [];
+      this.errorMessage = '';
+      this.firstUserModal = false;
+      this.verificationId = '';
+      this.verificationSent = false;
+      this.authMessage = '';
+      await this.getWaitlist();
+      await this.getTodayGames();
     } finally {
       event.target.complete();
     }
@@ -134,6 +141,7 @@ export class WaitlistPage implements OnInit {
         } else {
           this.phoneNumber = this.waitlistForm.controls['phone'].value;
           this.firstUserModal = true;
+          console.log(this.firstUserModal);
         }
       } catch (error) {
         console.error('Error:', error);

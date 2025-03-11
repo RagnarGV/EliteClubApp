@@ -1,12 +1,71 @@
+// ion-img {
+//   object-fit: cover;
+//   height: 200px;
+// }
+
+// ion-card {
+//   border-radius: 15px;
+// }
 ion-img {
   object-fit: cover;
   height: 200px;
 }
-
-ion-card {
-  border-radius: 15px;
-}
-
 ion-img::part(image) {
   border-radius: 10px;
+}
+ion-content {
+  --background: linear-gradient(to bottom, #111, #222, #615b41);
+}
+
+.event-list {
+  align-items: center;
+}
+
+.event-card {
+  border-radius: 15px;
+  background: rgba(20, 20, 20, 0.8);
+  color: white;
+  box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+}
+
+.gold-text {
+  color: goldenrod;
+  text-align: center;
+  font-weight: bold;
+}
+
+.event-title {
+  text-align: center;
+  font-size: 1.2rem;
+  margin-top: 10px;
+}
+
+/* Fade-in animation */
+.animate-fade-in {
+  opacity: 0;
+  transform: translateY(10px);
+  animation: fadeIn 0.5s ease-in-out forwards;
+}
+
+.animate-glow {
+  animation: glow 1.5s infinite;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes glow {
+  0% {
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+  }
+  100% {
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.2);
+  }
 }

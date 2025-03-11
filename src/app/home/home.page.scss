@@ -5,6 +5,18 @@
 ion-content {
   --background: linear-gradient(to bottom, #111, #222, #615b41);
 }
+.page-title {
+  font-family: "Bebas Neue", sans-serif;
+  font-weight: 500;
+  padding: 1.5rem;
+  font-style: italic;
+  color: goldenrod;
+  font-size: xx-large;
+}
+
+.text-gold {
+  color: goldenrod;
+}
 
 .welcome-section {
   text-align: center;
@@ -17,7 +29,7 @@ ion-content {
 }
 
 .image-card {
-  border-radius: 12px;
+  border-radius: 15px;
   transition: transform 0.3s ease-in-out;
 }
 .image-card:hover img {
@@ -28,7 +40,7 @@ ion-content {
 .toc-card {
   background: #222;
   color: white;
-  border-radius: 12px;
+  border-radius: 15px;
 }
 
 /* Animations */

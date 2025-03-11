@@ -3,24 +3,28 @@
     <ion-title class="ion-text-center">Special Events</ion-title>
   </ion-toolbar>
 </ion-header>
-<ion-content class="ion-padding">
+
+<ion-content>
   <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
-  <ion-card
-    *ngFor="let event of specialEvents"
-    class="mt-4 ion-radius"
-    (click)="openUrl(event.url)"
-  >
-    <ion-card-header>
-      <ion-card-title>{{ event.event_name }}</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      <ion-img [src]="event.image" alt="Event Image" />
-      <br />
-      <div>
-        <h2>{{ event.event_name }}</h2>
-      </div>
-    </ion-card-content>
-  </ion-card>
+
+  <div class="event-list animate-fade-in">
+    <ion-card
+      *ngFor="let event of specialEvents"
+      class="event-card animate-glow"
+      (click)="openUrl(event.url)"
+    >
+      <ion-card-header>
+        <ion-card-title class="gold-text">{{
+          event.event_name
+        }}</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-img [src]="event.image" alt="Event Image" class="event-image" />
+        <br />
+        <h2 class="event-title">{{ event.event_name }}</h2>
+      </ion-card-content>
+    </ion-card>
+  </div>
 </ion-content>

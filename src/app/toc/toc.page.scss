@@ -2,3 +2,82 @@ ion-button {
   --background: goldenrod;
   --background-activated: gold;
 }
+.page-title {
+  font-family: Arial, Helvetica, sans-serif;
+  font-style: italic;
+}
+.gradient-bg {
+  --background: linear-gradient(to bottom, #111, #222, #615b41);
+}
+.golden-glow {
+  text-shadow: 0px 0px 10px gold;
+  color: goldenrod;
+}
+.golden-text {
+  color: goldenrod;
+}
+.page-title {
+  font-style: italic;
+  font-size: 1.5rem;
+}
+.form-container,
+.waitlist-container {
+  padding: 20px;
+  border-radius: 12px;
+}
+.input-item {
+  background: rgba(255, 217, 0, 0);
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+.input-item-check {
+  background: rgba(255, 217, 0, 0);
+  border-radius: 8px;
+}
+.waitlist-list {
+  background: rgba(255, 217, 0, 0);
+  border-radius: 8px;
+}
+
+.glowing-btn {
+  --background: goldenrod;
+  --background-activated: gold;
+  box-shadow: 0px 0px 10px gold;
+  transition: transform 0.2s;
+}
+.glowing-btn:hover {
+  transform: scale(1.05);
+}
+.fade-in {
+  animation: slideUp 0.5s ease-in;
+}
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.8);
+  padding: 20px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 400px;
+  color: white;
+}
+.modal-content h2,
+.modal-content h3 {
+  color: goldenrod;
+}
+.error-text {
+  color: red;
+  font-weight: bold;
+}

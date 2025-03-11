@@ -2,6 +2,6 @@
 <resources>
     <string name="app_name">EliteClubApp</string>
     <string name="title_activity_main">EliteClubApp</string>
-    <string name="package_name">io.ionic.starter</string>
-    <string name="custom_url_scheme">io.ionic.starter</string>
+    <string name="package_name">com.eliteclub.app</string>
+    <string name="custom_url_scheme">com.eliteclub.app</string>
 </resources>

@@ -22,10 +22,14 @@ import {
   IonRefresher,
   IonRefresherContent,
   IonRadioGroup,
+  IonButtons,
+  IonIcon,
 } from '@ionic/angular/standalone';
+import { addIcons } from 'ionicons';
 import { ApiService } from '../services/api.service';
 import { ActivatedRoute } from '@angular/router';
-
+import { NavController } from '@ionic/angular';
+import { arrowBackOutline } from 'ionicons/icons';
 @Component({
   selector: 'app-toc',
   templateUrl: './toc.page.html',
@@ -49,6 +53,8 @@ import { ActivatedRoute } from '@angular/router';
     IonRefresher, // Add this
     IonRefresherContent, // Add this
     IonRadioGroup,
+    IonButtons,
+    IonIcon,
   ],
   providers: [ApiService],
 })
@@ -67,10 +73,12 @@ export class TocPage implements OnInit {
   id: any;
 
   constructor(
+    private navCtrl: NavController,
     private _route: ActivatedRoute,
     private fb: FormBuilder,
     private waitlistService: ApiService
   ) {
+    addIcons({ arrowBackOutline });
     this.waitlistForm = this.fb.group({
       firstName: ['', [Validators.required]],
       lastInitial: ['', [Validators.required, Validators.maxLength(1)]],
@@ -85,7 +93,9 @@ export class TocPage implements OnInit {
       smsUpdates: [false],
     });
   }
-
+  goBack() {
+    this.navCtrl.back();
+  }
   ngOnInit(): void {
     this._route.params.subscribe((params: any) => (this.id = params['id']));
     // this.id = +!this._route.snapshot.paramMap.get('id');
@@ -101,6 +111,11 @@ export class TocPage implements OnInit {
       this.waitlistForm.reset();
       this.waitlistForm.controls['phone'].setValue('+1');
       this.todayGames = [];
+      this.errorMessage = '';
+      this.firstUserModal = false;
+      this.verificationId = '';
+      this.verificationSent = false;
+      this.authMessage = '';
     } finally {
       event.target.complete();
     }
