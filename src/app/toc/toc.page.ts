@@ -24,6 +24,7 @@ import {
   IonRadioGroup,
   IonButtons,
   IonIcon,
+  IonCard,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { ApiService } from '../services/api.service';
@@ -55,6 +56,7 @@ import { arrowBackOutline } from 'ionicons/icons';
     IonRadioGroup,
     IonButtons,
     IonIcon,
+    IonCard,
   ],
   providers: [ApiService],
 })
@@ -132,7 +134,9 @@ export class TocPage implements OnInit {
       this.waitlist = response;
     });
   }
-
+  phoneNumberChanged() {
+    this.firstUserModal = false;
+  }
   async onSubmit() {
     if (this.waitlistForm.valid) {
       const formData = this.waitlistForm.value;

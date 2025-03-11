@@ -152,6 +152,10 @@ export class WaitlistPage implements OnInit {
     }
   }
 
+  phoneNumberChanged() {
+    this.firstUserModal = false;
+  }
+
   async sendOTP() {
     if (!this.phoneNumber.startsWith('+')) {
       this.authMessage =

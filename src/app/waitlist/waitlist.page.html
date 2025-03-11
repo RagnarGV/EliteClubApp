@@ -133,7 +133,11 @@
       </ion-item>
       <ion-item class="input-item border-bottom border-warning">
         <ion-label position="floating">Phone Number</ion-label>
-        <ion-input formControlName="phone" type="text"></ion-input>
+        <ion-input
+          (ngModelChange)="phoneNumberChanged()"
+          formControlName="phone"
+          type="text"
+        ></ion-input>
       </ion-item>
 
       <h4 class="golden-text">Please choose a game.</h4>

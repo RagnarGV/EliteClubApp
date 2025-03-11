@@ -61,21 +61,17 @@ ion-button {
     opacity: 1;
   }
 }
-.modal {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: rgba(0, 0, 0, 0.8);
-  padding: 20px;
+.modal-otp {
+  background: rgba(0, 0, 0, 0.7);
   border-radius: 10px;
-  width: 90%;
-  max-width: 400px;
-  color: white;
+  box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
 }
-.modal-content h2,
-.modal-content h3 {
+.modal-content-otp h2,
+.modal-content-otp h3 {
   color: goldenrod;
+}
+.modal-content-otp {
+  background: transparent;
 }
 .error-text {
   color: red;

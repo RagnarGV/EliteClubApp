@@ -30,7 +30,11 @@
       </ion-item>
       <ion-item class="input-item border-bottom border-warning">
         <ion-label position="floating">Phone Number</ion-label>
-        <ion-input formControlName="phone" type="text"></ion-input>
+        <ion-input
+          (ngModelChange)="phoneNumberChanged()"
+          formControlName="phone"
+          type="text"
+        ></ion-input>
       </ion-item>
 
       <h4 class="golden-text">Please choose a game.</h4>
@@ -57,37 +61,33 @@
         >Join List</ion-button
       >
     </form>
-
-    <div *ngIf="firstUserModal" class="error-message">
-      <div>
-        <h2>Phone Authentication</h2>
-
-        <div *ngIf="!verificationSent">
-          <ion-item>
-            <ion-input
-              [(ngModel)]="phoneNumber"
-              placeholder="+1XXXXXXXXXX"
-              disabled="true"
-            ></ion-input>
-          </ion-item>
-          <ion-button expand="block" (click)="sendOTP()">Send OTP</ion-button>
-          <div id="recaptcha-container"></div>
-        </div>
-
-        <div *ngIf="verificationSent">
-          <h3>Enter OTP</h3>
-          <ion-item>
-            <ion-input
-              [(ngModel)]="otpCode"
-              placeholder="Enter OTP"
-            ></ion-input>
-          </ion-item>
-          <ion-button expand="block" (click)="verifyOTP()">Verify</ion-button>
-        </div>
-
-        <p *ngIf="authMessage">{{ authMessage }}</p>
+  </div>
+  <div *ngIf="firstUserModal" class="modal-content-otp ion-padding fade-in">
+    <ion-card class="modal-otp ion-padding animate-glow">
+      <h2>Phone Authentication</h2>
+      <div *ngIf="!verificationSent">
+        <ion-item class="input-item">
+          <ion-input
+            [(ngModel)]="phoneNumber"
+            placeholder="+1XXXXXXXXXX"
+            disabled="true"
+          ></ion-input>
+        </ion-item>
+        <ion-button expand="block" class="glowing-btn" (click)="sendOTP()"
+          >Send OTP</ion-button
+        >
       </div>
-    </div>
+      <div *ngIf="verificationSent">
+        <h3>Enter OTP</h3>
+        <ion-item class="input-item">
+          <ion-input [(ngModel)]="otpCode" placeholder="Enter OTP"></ion-input>
+        </ion-item>
+        <ion-button expand="block" class="glowing-btn" (click)="verifyOTP()"
+          >Verify</ion-button
+        >
+      </div>
+      <p *ngIf="authMessage" class="error-text">{{ authMessage }}</p>
+    </ion-card>
   </div>
 
   <div *ngFor="let game of todayGames" class="waitlist-container fade-in">
