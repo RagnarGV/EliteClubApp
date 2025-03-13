@@ -100,6 +100,7 @@ export class WaitlistPage implements OnInit {
       this.getTocDays();
     } else if (this.waitlistForm.controls['game'].value === 'cash') {
       this.tocSettings = '';
+      this.waitlistForm.controls['toc_day'].reset;
       this.getWaitlist();
       this.getTodayGames();
     }

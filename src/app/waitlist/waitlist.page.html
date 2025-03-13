@@ -72,7 +72,10 @@
             *ngFor="let game of todayGames"
           >
             <ion-radio [value]="game.gameType">
-              <ion-label>{{ game.gameType }}</ion-label>
+              <ion-label
+                >{{ game.gameType }} - {{game.buy_in? game.buy_in : 'NL'}}
+                Buy-in
+              </ion-label>
             </ion-radio>
           </ion-item>
         </ion-list>
