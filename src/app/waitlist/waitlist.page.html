@@ -139,16 +139,57 @@
           type="text"
         ></ion-input>
       </ion-item>
+      <ion-item class="input-item border-bottom border-warning">
+        <ion-select
+          label="Game Type"
+          labelPlacement="floating"
+          formControlName="game"
+          (ngModelChange)="onChangeGame()"
+        >
+          <ion-select-option value="cash"> Cash </ion-select-option>
+          <ion-select-option value="toc">
+            Tournament of Champoins
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
 
+      <ion-item
+        class="input-item border-bottom border-warning"
+        *ngIf="tocSettings"
+      >
+        <ion-select
+          label="Select Day"
+          labelPlacement="floating"
+          formControlName="toc_day"
+          (ngModelChange)="onTocDaySelect()"
+        >
+          <ion-select-option
+            *ngFor="let toc_set of tocSettings"
+            [value]="toc_set.id"
+          >
+            {{toc_set.day_date}}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
       <h4 class="golden-text">Please choose a game.</h4>
-      <ion-radio-group formControlName="gameType">
+      <ion-radio-group *ngIf="!tocGame" formControlName="gameType">
         <ion-list class="input-item">
           <ion-item
             class="input-item-check border-bottom border-warning"
             *ngFor="let game of todayGames"
           >
-            <ion-radio [value]="game.type">
-              <ion-label>{{ game.type }}</ion-label>
+            <ion-radio [value]="game.gameType">
+              <ion-label>{{ game.gameType }}</ion-label>
+            </ion-radio>
+          </ion-item>
+        </ion-list>
+      </ion-radio-group>
+
+      <ion-radio-group *ngIf="tocGame" formControlName="gameType">
+        <ion-list class="input-item">
+          <ion-item class="input-item-check border-bottom border-warning">
+            <ion-radio [value]="tocGame">
+              <ion-label>{{ tocGame }}</ion-label>
             </ion-radio>
           </ion-item>
         </ion-list>
@@ -200,12 +241,12 @@
   </div>
 
   <div *ngFor="let game of todayGames" class="waitlist-container fade-in">
-    <h3 class="golden-text">{{game.type}}</h3>
+    <h3 class="golden-text">{{game.gameType}}</h3>
     <p class="info-text">✔️ indicates the player is checked in at the club</p>
 
     <ion-list class="waitlist-list" *ngIf="waitlist.length > 0; else noData">
       <ng-container *ngFor="let entry of waitlist">
-        <ng-container *ngIf="entry.gameType == game.type; else noData">
+        <ng-container *ngIf="entry.gameType == game.gameType; else noData">
           <ion-item
             class="waitlist-item rounded-bottom border-bottom border-warning"
           >
