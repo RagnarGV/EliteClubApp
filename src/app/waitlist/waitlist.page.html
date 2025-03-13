@@ -1,110 +1,3 @@
-<!-- <ion-header>
-  <ion-toolbar>
-    <ion-title class="ion-text-center">Waitlist</ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content class="ion-padding">
-  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
-    <ion-refresher-content></ion-refresher-content>
-  </ion-refresher>
-  <div class="form-container">
-    <h2 class="page-title text-center text-warning">Join The Waitlist</h2>
-    <form [formGroup]="waitlistForm" (ngSubmit)="onSubmit()">
-      <ion-item>
-        <ion-label position="floating">First Name</ion-label>
-        <ion-input formControlName="firstName" type="text"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label position="floating">Last Initial</ion-label>
-        <ion-input
-          formControlName="lastInitial"
-          type="text"
-          maxlength="1"
-        ></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label position="floating">Phone Number</ion-label>
-        <ion-input formControlName="phone" type="text"></ion-input>
-      </ion-item>
-
-      <h4>Please choose a game.</h4>
-
-      <ion-radio-group formControlName="gameType">
-        <ion-list>
-          <ion-item *ngFor="let game of todayGames">
-            <ion-radio [value]="game.type + ' ' + game.limit">
-              <ion-label>{{ game.type }} {{ game.limit }}</ion-label>
-            </ion-radio>
-          </ion-item>
-        </ion-list>
-      </ion-radio-group>
-
-      <ion-item>
-        <ion-checkbox formControlName="smsUpdates"></ion-checkbox>
-        <ion-label>Send me SMS updates</ion-label>
-      </ion-item>
-      <ion-button
-        expand="block"
-        color="warning"
-        type="submit"
-        [disabled]="waitlistForm.invalid"
-        >Join List</ion-button
-      >
-    </form>
-
-    <div *ngIf="firstUserModal" class="error-message">
-      <div>
-        <h2>Phone Authentication</h2>
-
-        <div *ngIf="!verificationSent">
-          <ion-item>
-            <ion-input
-              [(ngModel)]="phoneNumber"
-              placeholder="+1XXXXXXXXXX"
-              disabled="true"
-            ></ion-input>
-          </ion-item>
-          <ion-button expand="block" (click)="sendOTP()">Send OTP</ion-button>
-          <div id="recaptcha-container"></div>
-        </div>
-
-        <div *ngIf="verificationSent">
-          <h3>Enter OTP</h3>
-          <ion-item>
-            <ion-input
-              [(ngModel)]="otpCode"
-              placeholder="Enter OTP"
-            ></ion-input>
-          </ion-item>
-          <ion-button expand="block" color="warning" (click)="verifyOTP()"
-            >Verify</ion-button
-          >
-        </div>
-
-        <p *ngIf="authMessage">{{ authMessage }}</p>
-      </div>
-    </div>
-  </div>
-
-  <div class="waitlist-container">
-    <h3>$1/3 NLH Waitlist</h3>
-    <p>✔️ indicates the player is checked in at the club</p>
-
-    <ion-list *ngIf="waitlist.length > 0; else noData">
-      <ion-item *ngFor="let entry of waitlist">
-        <ion-label>
-          {{ entry.firstName }} {{ entry.lastInitial }}
-          <span *ngIf="entry.checkedIn"> ✔️</span>
-        </ion-label>
-      </ion-item>
-    </ion-list>
-
-    <ng-template #noData>
-      <p>No players on the waitlist yet. Be the first to join!</p>
-    </ng-template>
-  </div>
-</ion-content> -->
 <ion-header>
   <ion-toolbar>
     <ion-title class="ion-text-center">Waitlist</ion-title>
@@ -138,6 +31,22 @@
           formControlName="phone"
           type="text"
         ></ion-input>
+      </ion-item>
+
+      <ion-item class="select-glow">
+        <ion-select
+          formControlName="gameType"
+          label="Game Type"
+          label-placement="floating"
+        >
+          <ion-select-option
+            class="input-item border-bottom border-warning"
+            *ngFor="let game of todayGames"
+            [value]="game.type"
+          >
+            {{ game.type }}
+          </ion-select-option>
+        </ion-select>
       </ion-item>
 
       <h4 class="golden-text">Please choose a game.</h4>
@@ -203,7 +112,7 @@
     <h3 class="golden-text">{{game.type}}</h3>
     <p class="info-text">✔️ indicates the player is checked in at the club</p>
 
-    <ion-list class="waitlist-list" *ngIf="waitlist.length > 0; else noData">
+    <ion-list class="waitlist-list" *ngIf="waitlist.length > 0">
       <ng-container *ngFor="let entry of waitlist">
         <ng-container *ngIf="entry.gameType == game.type; else noData">
           <ion-item

@@ -23,6 +23,8 @@ import {
   IonRefresherContent,
   IonRadioGroup,
   IonCard,
+  IonSelect,
+  IonSelectOption,
 } from '@ionic/angular/standalone';
 import { ApiService } from '../services/api.service';
 
@@ -50,6 +52,8 @@ import { ApiService } from '../services/api.service';
     IonRefresherContent, // Add this
     IonRadioGroup,
     IonCard,
+    IonSelect,
+    IonSelectOption,
   ],
   providers: [ApiService],
 })
