@@ -38,7 +38,7 @@ import { LoadingController } from '@ionic/angular';
   ],
 })
 export class HomePage implements OnInit {
-  schedule: Schedule[] = [];
+  schedule: any[] = [];
   toc_is_live: boolean = false;
   toc: any;
   toc_count: number = 0;
