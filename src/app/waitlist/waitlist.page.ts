@@ -93,16 +93,21 @@ export class WaitlistPage implements OnInit {
   ngOnInit(): void {}
 
   onChangeGame() {
+    this.todayGames = [];
+    this.waitlist = [];
     if (this.waitlistForm.controls['game'].value === 'toc') {
       console.log(this.waitlistForm.controls['game'].value);
       this.getTocDays();
     } else if (this.waitlistForm.controls['game'].value === 'cash') {
+      this.tocSettings = '';
       this.getWaitlist();
       this.getTodayGames();
     }
   }
 
   onTocDaySelect() {
+    this.todayGames = [];
+    this.waitlist = [];
     console.log(this.waitlistForm.controls['game'].value);
     this.waitlistService
       .getTocSettingsById(this.waitlistForm.controls['toc_day'].value)
@@ -122,8 +127,8 @@ export class WaitlistPage implements OnInit {
       this.verificationId = '';
       this.verificationSent = false;
       this.authMessage = '';
-      await this.getWaitlist();
-      await this.getTodayGames();
+      this.todayGames = [];
+      this.waitlist = [];
     } finally {
       event.target.complete();
     }
