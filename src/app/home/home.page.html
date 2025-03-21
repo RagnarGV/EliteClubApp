@@ -86,7 +86,7 @@
   <ion-card-header>
     <ion-card-title>Today's Schedule</ion-card-title>
   </ion-card-header>
-  <ion-card class="schedule-card animate-fade-in animate-slide-up">
+  <ion-card class="schedule-card animate-fade-in animate-slide-up ion-padding">
     <ion-card-content>
       <ng-container *ngFor="let day of schedule">
         <div *ngIf="day.day === getCurrentDay()">
@@ -105,34 +105,40 @@
         </div>
       </ng-container>
     </ion-card-content>
+
+    <ion-button expand="block" class="glowing-btn" href="/tabs/waitlist">
+      Join List
+    </ion-button>
   </ion-card>
-  <!-- <h2
-    *ngIf="toc_count > 0"
-    class="page-title ion-text-center animate-fade-in animate-slide-up"
-  >
-    Tournament of Champoins
-  </h2>
-  <ng-container *ngFor="let toc_event of toc">
-    <ng-container *ngIf="toc_event.is_live == true">
-      <ion-card-header>
-        <ion-card-title>{{ toc_event.day_date }} </ion-card-title>
-      </ion-card-header>
-      <ion-card class="toc-card animate-slide-up">
-        <ion-card-content>
-          <div>
-            <h2 class="mb-3">{{ toc_event.gameType }}</h2>
-            <h2>Buy-in: {{toc_event.buy_in}}</h2>
-            <h2>{{ toc_event.description }}</h2>
-            <p class="text-muted mt-2">{{ toc_event.seats }} seats available</p>
-            <ion-button
-              expand="block"
-              (click)="goToToc(toc_event.id)"
-              color="warning"
-              >Grab a seat</ion-button
-            >
-          </div>
-        </ion-card-content>
-      </ion-card>
-    </ng-container>
-  </ng-container> -->
+
+  <div *ngFor="let game of todayGames" class="ion-padding fade-in">
+    <h3 class="golden-text">{{game.gameType}}</h3>
+    <p class="info-text">✔️ indicates the player is checked in at the club</p>
+
+    <ion-list class="waitlist-list" *ngIf="waitlist.length > 0">
+      <ng-container *ngFor="let entry of waitlist">
+        <ng-container *ngIf="entry.gameType == game.gameType; else noData">
+          <ion-item
+            class="waitlist-item rounded-bottom border-bottom border-warning"
+          >
+            <ion-label>
+              {{ entry.firstName }} {{ entry.lastInitial }}
+              <span
+                style="float: right"
+                *ngIf="entry.checkedIn"
+                class="checked-in"
+                >✔️</span
+              >
+            </ion-label>
+          </ion-item>
+        </ng-container>
+      </ng-container>
+    </ion-list>
+
+    <ng-template #noData>
+      <p class="info-text">
+        No players on the waitlist yet. Be the first to join!
+      </p>
+    </ng-template>
+  </div>
 </ion-content>

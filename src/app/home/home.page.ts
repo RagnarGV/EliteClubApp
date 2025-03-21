@@ -13,10 +13,13 @@ import {
   IonRefresher,
   IonRefresherContent,
   IonButton,
+  IonList,
+  IonLabel,
+  IonItem,
 } from '@ionic/angular/standalone';
 import { CommonModule } from '@angular/common';
-import { ApiService, Schedule } from '../services/api.service';
-import { LoadingController } from '@ionic/angular';
+import { ApiService } from '../services/api.service';
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.page.html',
@@ -35,6 +38,9 @@ import { LoadingController } from '@ionic/angular';
     IonRefresher,
     IonRefresherContent,
     IonButton,
+    IonList,
+    IonLabel,
+    IonItem,
   ],
 })
 export class HomePage implements OnInit {
@@ -43,13 +49,41 @@ export class HomePage implements OnInit {
   toc: any;
   toc_count: number = 0;
   loading: boolean = true;
+  todayGames: any[] = [];
+  waitlist: any;
   constructor(private scheduleService: ApiService, private route: Router) {}
 
   async ngOnInit() {
     this.loading = true;
     this.getSchedule();
     this.getTocSettings();
+    this.getTodayGames();
+    this.getWaitlist();
   }
+
+  async getTodayGames() {
+    this.scheduleService.getSchedule().then((response) => {
+      response.forEach((day: { day: string; games: any[] }) => {
+        day.games.forEach((game: { date: string }) => {
+          if (
+            day.day ===
+            new Date().toLocaleDateString('en-US', { weekday: 'long' })
+          ) {
+            console.log(game);
+            this.todayGames.push(game);
+          }
+        });
+      });
+    });
+  }
+
+  async getWaitlist() {
+    this.scheduleService.getWaitlist().then((response) => {
+      console.log(response);
+      this.waitlist = response;
+    });
+  }
+
   getTocSettings() {
     this.scheduleService.getTocSettings().then((toc) => {
       this.toc = toc;

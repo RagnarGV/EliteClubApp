@@ -62,3 +62,13 @@ ion-card-title {
 ion-refresher {
   color: var(--ion-color-warning);
 }
+
+// ion-header {
+//   padding-top: var(--ion-safe-area-top); /* Or var(--ion-safe-area-top) */
+// }
+ion-tabs {
+  ion-tab-bar {
+    padding-bottom: var(--ion-safe-area-bottom);
+    /* Or var(--ion-safe-area-bottom) */
+  }
+}

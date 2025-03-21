@@ -90,11 +90,15 @@ export class WaitlistPage implements OnInit {
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.getWaitlist();
+    this.getTodayGames();
+    this.waitlistForm.controls['game'].setValue('cash');
+  }
 
   onChangeGame() {
-    this.todayGames = [];
-    this.waitlist = [];
+    //this.todayGames = [];
+    // this.waitlist = [];
     if (this.waitlistForm.controls['game'].value === 'toc') {
       console.log(this.waitlistForm.controls['game'].value);
       this.getTocDays();
@@ -115,7 +119,7 @@ export class WaitlistPage implements OnInit {
       .then((data: any) => {
         this.todayGames.push(data);
       });
-    this.getTocWaitlist(this.waitlistForm.controls['toc_day'].value);
+    // this.getTocWaitlist(this.waitlistForm.controls['toc_day'].value);
   }
 
   async handleRefresh(event: any) {
