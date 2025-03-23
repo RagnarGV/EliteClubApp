@@ -72,7 +72,7 @@ export class TocPage implements OnInit {
   authMessage: string = '';
   recaptchaVerifier: any;
   todayGames: any[] = [];
-  id: any;
+  allTocDays: any;
 
   constructor(
     private navCtrl: NavController,
@@ -99,17 +99,16 @@ export class TocPage implements OnInit {
     this.navCtrl.back();
   }
   ngOnInit(): void {
-    this._route.params.subscribe((params: any) => (this.id = params['id']));
-    // this.id = +!this._route.snapshot.paramMap.get('id');
-    console.log(this.id);
     this.getWaitlist();
-    this.getTodayGames();
+    this.getAllTocDays();
+    // this.getTodayGames();
   }
 
   async handleRefresh(event: any) {
     try {
       await this.getWaitlist();
-      await this.getTodayGames();
+      await this.getAllTocDays();
+      //await this.getTodayGames();
       this.waitlistForm.reset();
       this.waitlistForm.controls['phone'].setValue('+1');
       this.todayGames = [];
@@ -122,84 +121,92 @@ export class TocPage implements OnInit {
       event.target.complete();
     }
   }
-  async getTodayGames() {
-    this.waitlistService.getTocSettingsById(this.id).then((response) => {
-      console.log(response.gameType);
-      this.todayGames.push(response);
-    });
-  }
+  // async getTodayGames() {
+  //   this.waitlistService.getTocSettingsById(this.id).then((response) => {
+  //     console.log(response.gameType);
+  //     this.todayGames.push(response);
+  //   });
+  // }
   async getWaitlist() {
-    this.waitlistService.getTOC(this.id).then((response) => {
+    this.waitlistService.getAllTOC().then((response) => {
       console.log(response);
       this.waitlist = response;
     });
   }
+
+  async getAllTocDays() {
+    this.waitlistService.getTocSettings().then((response) => {
+      console.log(response);
+      this.allTocDays = response;
+    });
+  }
+
   phoneNumberChanged() {
     this.firstUserModal = false;
   }
-  async onSubmit() {
-    if (this.waitlistForm.valid) {
-      const formData = this.waitlistForm.value;
+  // async onSubmit() {
+  //   if (this.waitlistForm.valid) {
+  //     const formData = this.waitlistForm.value;
 
-      console.log(formData);
-      try {
-        const isVerified = await this.waitlistService.checkVerification(
-          formData.phone
-        );
-        if (isVerified) {
-          await this.waitlistService.addToTOCWaitlist(this.id, formData);
-          this.waitlistForm.reset();
-          this.waitlistForm.controls['phone'].setValue('+1');
-          this.getWaitlist();
-        } else {
-          this.phoneNumber = this.waitlistForm.controls['phone'].value;
-          this.firstUserModal = true;
-        }
-      } catch (error) {
-        console.error('Error:', error);
-        this.errorMessage = 'An error occurred. Please try again later.';
-      }
-    } else {
-      console.log('Form is invalid');
-    }
-  }
+  //     console.log(formData);
+  //     try {
+  //       const isVerified = await this.waitlistService.checkVerification(
+  //         formData.phone
+  //       );
+  //       if (isVerified) {
+  //         await this.waitlistService.addToTOCWaitlist(this.id, formData);
+  //         this.waitlistForm.reset();
+  //         this.waitlistForm.controls['phone'].setValue('+1');
+  //         this.getWaitlist();
+  //       } else {
+  //         this.phoneNumber = this.waitlistForm.controls['phone'].value;
+  //         this.firstUserModal = true;
+  //       }
+  //     } catch (error) {
+  //       console.error('Error:', error);
+  //       this.errorMessage = 'An error occurred. Please try again later.';
+  //     }
+  //   } else {
+  //     console.log('Form is invalid');
+  //   }
+  // }
 
-  async sendOTP() {
-    if (!this.phoneNumber.startsWith('+')) {
-      this.authMessage =
-        'Enter phone number with country code (e.g., +15551234567)';
-      return;
-    }
+  // async sendOTP() {
+  //   if (!this.phoneNumber.startsWith('+')) {
+  //     this.authMessage =
+  //       'Enter phone number with country code (e.g., +15551234567)';
+  //     return;
+  //   }
 
-    console.log(this.phoneNumber);
-    const isSent = await this.waitlistService.sendOtp(this.phoneNumber);
-    if (isSent) {
-      this.verificationSent = true;
-      this.authMessage = 'OTP sent successfully!';
-    }
-  }
+  //   console.log(this.phoneNumber);
+  //   const isSent = await this.waitlistService.sendOtp(this.phoneNumber);
+  //   if (isSent) {
+  //     this.verificationSent = true;
+  //     this.authMessage = 'OTP sent successfully!';
+  //   }
+  // }
 
-  async verifyOTP() {
-    const formData = this.waitlistForm.value;
-    if (!this.otpCode) {
-      this.authMessage = 'Please enter the OTP.';
-      return;
-    }
+  // async verifyOTP() {
+  //   const formData = this.waitlistForm.value;
+  //   if (!this.otpCode) {
+  //     this.authMessage = 'Please enter the OTP.';
+  //     return;
+  //   }
 
-    const isVerified = await this.waitlistService.verifyOtp(
-      this.phoneNumber,
-      this.otpCode
-    );
-    if (isVerified) {
-      await this.waitlistService.saveUser(formData);
-      await this.waitlistService.addToTOCWaitlist(this.id, formData);
-      this.authMessage = 'OTP verified! User authenticated.';
-      this.firstUserModal = false;
-      this.waitlistForm.reset();
-      this.waitlistForm.controls['phone'].setValue('+1');
-      this.getWaitlist();
-    } else {
-      this.authMessage = 'Invalid OTP. Please try again.';
-    }
-  }
+  //   const isVerified = await this.waitlistService.verifyOtp(
+  //     this.phoneNumber,
+  //     this.otpCode
+  //   );
+  //   if (isVerified) {
+  //     await this.waitlistService.saveUser(formData);
+  //     await this.waitlistService.addToTOCWaitlist(this.id, formData);
+  //     this.authMessage = 'OTP verified! User authenticated.';
+  //     this.firstUserModal = false;
+  //     this.waitlistForm.reset();
+  //     this.waitlistForm.controls['phone'].setValue('+1');
+  //     this.getWaitlist();
+  //   } else {
+  //     this.authMessage = 'Invalid OTP. Please try again.';
+  //   }
+  // }
 }

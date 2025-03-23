@@ -7,6 +7,16 @@ export interface Game {
   limit: string;
 }
 
+export enum WeekDays {
+  Sunday = 'Sunday',
+  Monday = 'Monday',
+  Tuesday = 'Tuesday',
+  Wednesday = 'Wednesday',
+  Thursday = 'Thursday',
+  Firday = 'Friday',
+  Saturday = 'Saturday',
+}
+
 export interface Schedule {
   day: string;
   time: string;
@@ -44,6 +54,11 @@ export class ApiService {
 
   async getTOC(id: any) {
     const response = await axios.get(this.apiUrl + '/toc/' + id);
+    return response.data;
+  }
+
+  async getAllTOC() {
+    const response = await axios.get(this.apiUrl + '/toc');
     return response.data;
   }
 

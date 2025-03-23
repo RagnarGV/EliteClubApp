@@ -56,14 +56,20 @@
           formControlName="toc_day"
           (ngModelChange)="onTocDaySelect()"
         >
-          <ion-select-option
-            *ngFor="let toc_set of tocSettings"
-            [value]="toc_set.id"
-          >
-            {{toc_set.day_date}}
-          </ion-select-option>
+          <ng-container *ngFor="let toc_set of tocSettings">
+            <ion-select-option
+              *ngIf="toc_set.is_live == true"
+              [value]="toc_set.id"
+            >
+              {{toc_set.day_date}}
+            </ion-select-option>
+          </ng-container>
         </ion-select>
       </ion-item>
+      <p class="info-text">
+        Note: To see Tournament of Champoins waitlist select Tournament of
+        Champoins in Game Type
+      </p>
       <h4 class="golden-text">Please choose a game.</h4>
       <ion-radio-group *ngIf="!tocGame" formControlName="gameType">
         <ion-list class="input-item">

@@ -39,7 +39,7 @@ export const routes: Routes = [
         pathMatch: 'full',
       },
       {
-        path: 'toc/:id',
+        path: 'toc',
         loadComponent: () => import('../toc/toc.page').then((m) => m.TocPage),
       },
     ],
