@@ -25,8 +25,11 @@ import {
   IonCard,
   IonSelect,
   IonSelectOption,
+  IonIcon,
 } from '@ionic/angular/standalone';
+import { addIcons } from 'ionicons';
 import { ApiService } from '../services/api.service';
+import { checkmark } from 'ionicons/icons';
 
 @Component({
   selector: 'app-waitlist',
@@ -54,6 +57,7 @@ import { ApiService } from '../services/api.service';
     IonCard,
     IonSelect,
     IonSelectOption,
+    IonIcon,
   ],
   providers: [ApiService],
 })
@@ -88,6 +92,7 @@ export class WaitlistPage implements OnInit {
       gameType: ['', Validators.required], // Radio buttons update this field
       smsUpdates: [false],
     });
+    addIcons({ checkmark });
   }
 
   ngOnInit(): void {

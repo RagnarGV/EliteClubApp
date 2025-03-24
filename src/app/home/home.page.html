@@ -116,7 +116,10 @@
 
   <div *ngFor="let game of todayGames" class="ion-padding fade-in">
     <h3 class="golden-text">{{game.gameType}}</h3>
-    <p class="info-text">✔️ indicates the player is checked in at the club</p>
+    <p class="info-text">
+      <ion-icon name="checkmark"></ion-icon> indicates the player is checked in
+      at the club
+    </p>
 
     <ion-list class="waitlist-list" *ngIf="waitlist.length > 0">
       <ng-container *ngFor="let entry of waitlist">
@@ -126,12 +129,9 @@
           >
             <ion-label>
               {{ entry.firstName }} {{ entry.lastInitial }}
-              <span
-                style="float: right"
-                *ngIf="entry.checkedIn"
-                class="checked-in"
-                >✔️</span
-              >
+              <span style="float: right" *ngIf="entry.checkedIn == true">
+                <ion-icon name="checkmark"></ion-icon>
+              </span>
             </ion-label>
           </ion-item>
         </ng-container>

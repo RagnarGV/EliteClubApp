@@ -16,9 +16,12 @@ import {
   IonList,
   IonLabel,
   IonItem,
+  IonIcon,
 } from '@ionic/angular/standalone';
+import { addIcons } from 'ionicons';
 import { CommonModule } from '@angular/common';
 import { ApiService } from '../services/api.service';
+import { checkmark } from 'ionicons/icons';
 
 @Component({
   selector: 'app-home',
@@ -41,6 +44,7 @@ import { ApiService } from '../services/api.service';
     IonList,
     IonLabel,
     IonItem,
+    IonIcon,
   ],
 })
 export class HomePage implements OnInit {
@@ -51,7 +55,9 @@ export class HomePage implements OnInit {
   loading: boolean = true;
   todayGames: any[] = [];
   waitlist: any;
-  constructor(private scheduleService: ApiService, private route: Router) {}
+  constructor(private scheduleService: ApiService, private route: Router) {
+    addIcons({ checkmark });
+  }
 
   async ngOnInit() {
     this.loading = true;
