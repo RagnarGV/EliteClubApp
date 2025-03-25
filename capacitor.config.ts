@@ -17,11 +17,11 @@ const config: CapacitorConfig = {
       resizeOnFullScreen: true,
     },
     SplashScreen: {
-      // launchShowDuration: 3000, // Show for 3 seconds
+      launchShowDuration: 3000, // Show for 3 seconds
       launchAutoHide: true,
-      // androidScaleType: 'CENTER_CROP',
-      // splashFullScreen: true,
-      // splashImmersive: true,
+      androidScaleType: 'CENTER_CROP',
+      splashFullScreen: true,
+      splashImmersive: true,
     },
   },
 };

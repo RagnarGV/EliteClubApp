@@ -80,6 +80,13 @@ export class HomePage implements OnInit {
           }
         });
       });
+      // response
+      //   .filter(
+      //     (schedule: any) =>
+      //       schedule.day ===
+      //       new Date().toLocaleDateString('en-US', { weekday: 'long' })
+      //   )
+      //   .map((game: any) => this.todayGames.push(game));
     });
   }
 
@@ -105,7 +112,10 @@ export class HomePage implements OnInit {
   }
   getSchedule() {
     this.scheduleService.getSchedule().then(async (schedule) => {
-      this.schedule = schedule;
+      this.schedule = schedule.filter(
+        (schdeule: any) => schdeule.day === this.getCurrentDay()
+      );
+
       this.loading = false;
     });
   }

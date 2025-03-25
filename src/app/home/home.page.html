@@ -74,7 +74,7 @@
   <div class="welcome-section">
     <img
       class="image-card bg-transparent animate-zoom-in"
-      src="../../assets/club_logo_2.png"
+      src="../../assets/club_logo.png"
       alt="Poker Club"
     />
     <h4 class="subtitle animate-slide-up">Shuffle up and deal!</h4>
@@ -89,7 +89,7 @@
   <ion-card class="schedule-card animate-fade-in animate-slide-up ion-padding">
     <ion-card-content>
       <ng-container *ngFor="let day of schedule">
-        <div *ngIf="day.day === getCurrentDay()">
+        <div *ngIf="day.is_live == true else noSchedule">
           <h2 class="text-center mb-3">{{ day.time }}</h2>
           <ng-container *ngFor="let game of day.games">
             <div class="row">
@@ -102,16 +102,25 @@
             </div>
           </ng-container>
           <p class="text-center mt-3">{{ day.description }}</p>
+          <ion-button
+            expand="block"
+            class="glowing-btn my-4"
+            href="/tabs/waitlist"
+          >
+            Join List
+          </ion-button>
         </div>
+        <ng-template #noSchedule>
+          <ion-card-title class="text-center"
+            >We are currrently closed</ion-card-title
+          >
+        </ng-template>
       </ng-container>
-    </ion-card-content>
 
-    <ion-button expand="block" class="glowing-btn mb-4" href="/tabs/waitlist">
-      Join List
-    </ion-button>
-    <ion-button expand="block" class="glowing-btn" href="/tabs/toc">
-      TOC waitlist
-    </ion-button>
+      <ion-button expand="block" class="glowing-btn" href="/tabs/toc">
+        TOC waitlist
+      </ion-button>
+    </ion-card-content>
   </ion-card>
 
   <div *ngFor="let game of todayGames" class="ion-padding fade-in">

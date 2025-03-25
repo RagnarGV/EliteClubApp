@@ -63,7 +63,7 @@ export class SchedulePage implements OnInit {
   async getSchedule() {
     try {
       const data = await this.scheduleService.getSchedule();
-      this.schedule = data;
+      this.schedule = data.filter((schedule: any) => schedule.is_live == true);
 
       // Wait for view to be initialized
       setTimeout(() => {

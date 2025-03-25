@@ -137,7 +137,7 @@ export class TocPage implements OnInit {
   async getAllTocDays() {
     this.waitlistService.getTocSettings().then((response) => {
       console.log(response);
-      this.allTocDays = response;
+      this.allTocDays = response.filter((days: any) => days.is_live == true);
     });
   }
 
