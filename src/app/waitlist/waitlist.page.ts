@@ -87,7 +87,7 @@ export class WaitlistPage implements OnInit {
           Validators.pattern(/^\+1[0-9]{10}$/),
         ]),
       ],
-      game: ['', Validators.required],
+      game: ['cash', Validators.required],
       toc_day: [''],
       gameType: ['', Validators.required], // Radio buttons update this field
       smsUpdates: [false],
@@ -98,7 +98,6 @@ export class WaitlistPage implements OnInit {
   ngOnInit(): void {
     this.getWaitlist();
     this.getTodayGames();
-    this.waitlistForm.controls['game'].setValue('cash');
   }
 
   onChangeGame() {
@@ -161,8 +160,8 @@ export class WaitlistPage implements OnInit {
 
   async getTocDays() {
     this.waitlistService.getTocSettings().then((response) => {
-      console.log(response);
-      this.tocSettings = response;
+      this.tocSettings = response.filter((x: any) => x.is_live == true);
+      console.log(this.tocSettings);
     });
   }
   async getTocWaitlist(id: any) {

@@ -57,10 +57,7 @@
           (ngModelChange)="onTocDaySelect()"
         >
           <ng-container *ngFor="let toc_set of tocSettings">
-            <ion-select-option
-              *ngIf="toc_set.is_live == true"
-              [value]="toc_set.id"
-            >
+            <ion-select-option [value]="toc_set.id">
               {{toc_set.day_date}}
             </ion-select-option>
           </ng-container>

@@ -5,6 +5,7 @@ import {
   IonTabButton,
   IonIcon,
   IonLabel,
+  IonContent,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { list, calendar, tv, home } from 'ionicons/icons';
@@ -13,7 +14,7 @@ import { list, calendar, tv, home } from 'ionicons/icons';
   selector: 'app-tabs',
   templateUrl: 'tabs.page.html',
   styleUrls: ['tabs.page.scss'],
-  imports: [IonTabs, IonTabBar, IonTabButton, IonIcon, IonLabel],
+  imports: [IonTabs, IonTabBar, IonTabButton, IonIcon, IonLabel, IonContent],
 })
 export class TabsPage {
   public environmentInjector = inject(EnvironmentInjector);

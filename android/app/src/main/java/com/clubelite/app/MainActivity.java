@@ -1,4 +1,4 @@
-package com.eliteclub.app;
+package com.clubelite.app;
 
 import com.getcapacitor.BridgeActivity;
 

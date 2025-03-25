@@ -41,14 +41,18 @@ export class SpecialEventsComponent implements OnInit {
   constructor(private apiService: ApiService) {}
 
   ngOnInit() {
-    this.apiService.getSpecialEvents().then((events) => {
-      this.specialEvents = events;
-    });
+    this.getSpecialEvents();
   }
   handleRefresh(event: any) {
     this.apiService.getSpecialEvents().then((events) => {
-      this.specialEvents = events;
+      this.specialEvents = events.filter((event: any) => event.is_live == true);
       event.target.complete();
+    });
+  }
+
+  getSpecialEvents() {
+    this.apiService.getSpecialEvents().then((events) => {
+      this.specialEvents = events.filter((event: any) => event.is_live == true);
     });
   }
 

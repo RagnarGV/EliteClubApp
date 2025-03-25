@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">EliteClubApp</string>
-    <string name="title_activity_main">EliteClubApp</string>
-    <string name="package_name">com.eliteclub.app</string>
-    <string name="custom_url_scheme">com.eliteclub.app</string>
+    <string name="app_name">Club Elite</string>
+    <string name="title_activity_main">Club Elite</string>
+    <string name="package_name">com.clubelite.app</string>
+    <string name="custom_url_scheme">com.clubelite.app</string>
 </resources>
