@@ -5,6 +5,11 @@ export const routes: Routes = [
     path: '',
     loadChildren: () => import('./tabs/tabs.routes').then((m) => m.routes),
   },
+
+  {
+    path: 'fandq',
+    loadComponent: () => import('./fandq/fandq.page').then((m) => m.FANDQPage),
+  },
   // {
   //   path: 'waitlist',
   //   loadComponent: () =>

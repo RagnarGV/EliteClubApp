@@ -41,7 +41,7 @@
 </ion-content> -->
 <ion-header>
   <ion-toolbar>
-    <ion-title class="ion-text-center text-gold">Schedule</ion-title>
+    <ion-title>Schedule</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -59,7 +59,29 @@
     </p>
   </div>
 
-  <ion-accordion-group class="ion-padding">
+  <p-timeline
+    [value]="schedule"
+    align="alternate"
+    styleClass="customized-timeline"
+    class="ion-padding"
+  >
+    <ng-template #marker let-event> </ng-template>
+    <ng-template #content let-schedule>
+      <p-card
+        class="card ion-padding bg-transparent border border-warning text-white"
+        [header]="schedule.day"
+        [subheader]="schedule.time"
+      >
+        <!-- <p>{{schedule.day}}</p> -->
+
+        <div *ngFor="let game of schedule.games" class="game-info">
+          <strong>{{ game.gameType }}</strong>
+          <p>{{ game.limit }}</p>
+        </div>
+      </p-card>
+    </ng-template>
+  </p-timeline>
+  <!-- <ion-accordion-group class="ion-padding">
     <ion-accordion
       *ngFor="let day of schedule; let i = index"
       [value]="'day' + i"
@@ -84,8 +106,8 @@
       </div>
     </ion-accordion>
   </ion-accordion-group>
-</ion-content>
-<!-- <ion-header>
+</ion-content> -->
+  <!-- <ion-header>
   <ion-toolbar>
     <ion-title class="ion-text-center">Schedule</ion-title>
   </ion-toolbar>
@@ -129,3 +151,4 @@
     </ion-accordion>
   </ion-accordion-group>
 </ion-content> -->
+</ion-content>

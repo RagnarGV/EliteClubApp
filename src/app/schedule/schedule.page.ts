@@ -2,6 +2,10 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ApiService } from '../services/api.service';
+import { TimelineModule } from 'primeng/timeline';
+import { ButtonModule } from 'primeng/button';
+import { CardModule } from 'primeng/card';
+import { addIcons } from 'ionicons';
 import {
   IonAccordion,
   IonCard,
@@ -16,7 +20,9 @@ import {
   IonAccordionGroup,
   IonRefresher,
   IonRefresherContent,
+  IonIcon,
 } from '@ionic/angular/standalone';
+import { calendar } from 'ionicons/icons';
 @Component({
   selector: 'app-schedule',
   templateUrl: './schedule.page.html',
@@ -37,6 +43,10 @@ import {
     IonTitle,
     IonRefresher,
     IonRefresherContent,
+    TimelineModule,
+    ButtonModule,
+    CardModule,
+    IonIcon,
   ],
 })
 export class SchedulePage implements OnInit {
@@ -47,6 +57,7 @@ export class SchedulePage implements OnInit {
     this.currentDay = new Date().toLocaleDateString('en-US', {
       weekday: 'long',
     });
+    addIcons({ calendar });
   }
 
   ngOnInit(): void {

@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title class="ion-text-center">Home</ion-title>
+    <ion-title>Home</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -14,8 +14,25 @@
     <img
       class="image-card bg-transparent animate-zoom-in"
       src="../../assets/club_logo.png"
+      height="150px"
       alt="Poker Club"
     />
+
+    <swiper-container
+      id="mySwiper"
+      effect="fade"
+      crossFade="true"
+      [slidesPerView]="1"
+      [loop]="true"
+      (swipertouchstart)="disableTabSwipe()"
+      (swipertouchend)="enableTabSwipe()"
+      autoplay="true"
+      class="swiper swiper-container"
+    >
+      <swiper-slide class="swiper-slide" *ngFor="let pics of gallery"
+        ><ion-img [src]="pics.image" alt=""
+      /></swiper-slide>
+    </swiper-container>
     <h4 class="subtitle animate-slide-up">Shuffle up and deal!</h4>
     <p class="description animate-slide-up">
       Your premier destination for exciting poker action in a welcoming

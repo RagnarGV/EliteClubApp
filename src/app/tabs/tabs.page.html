@@ -1,4 +1,4 @@
-<ion-content>
+<!-- <ion-content>
   <ion-tabs>
     <ion-tab-bar class="pt-2" slot="bottom">
       <ion-tab-button tab="home" href="/tabs/home">
@@ -21,4 +21,34 @@
       </ion-tab-button>
     </ion-tab-bar>
   </ion-tabs>
+</ion-content> -->
+<ion-content>
+  <div class="tabs-container">
+    <ion-tabs>
+      <ion-tab-bar class="pt-2" slot="bottom">
+        <ion-tab-button tab="home" href="/tabs/home">
+          <ion-icon name="home"></ion-icon>
+          <ion-label>Home</ion-label>
+        </ion-tab-button>
+        <ion-tab-button tab="waitlist" href="/tabs/waitlist">
+          <ion-icon name="list"></ion-icon>
+          <ion-label>Waitlist</ion-label>
+        </ion-tab-button>
+
+        <ion-tab-button tab="schedule" href="/tabs/schedule">
+          <ion-icon name="calendar"></ion-icon>
+          <ion-label>Schedule</ion-label>
+        </ion-tab-button>
+
+        <ion-tab-button tab="special-events" href="/tabs/special-events">
+          <ion-icon name="tv"></ion-icon>
+          <ion-label>More</ion-label>
+        </ion-tab-button>
+        <ion-tab-button tab="f&q" href="/tabs/f&q">
+          <ion-icon name="information-circle"></ion-icon>
+          <ion-label>F&amp;Q</ion-label>
+        </ion-tab-button>
+      </ion-tab-bar>
+    </ion-tabs>
+  </div>
 </ion-content>

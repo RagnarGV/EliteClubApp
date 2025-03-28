@@ -34,6 +34,11 @@ export const routes: Routes = [
           ),
       },
       {
+        path: 'f&q',
+        loadComponent: () =>
+          import('../fandq/fandq.page').then((m) => m.FANDQPage),
+      },
+      {
         path: '',
         redirectTo: '/tabs/home',
         pathMatch: 'full',

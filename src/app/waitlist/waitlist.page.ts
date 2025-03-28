@@ -75,6 +75,7 @@ export class WaitlistPage implements OnInit {
   tocSettings: any;
   tocGame: any;
   tocSettingsId: any;
+  // phoneNumberPrefix: string = '+1';
 
   constructor(private fb: FormBuilder, private waitlistService: ApiService) {
     this.waitlistForm = this.fb.group({
@@ -128,8 +129,11 @@ export class WaitlistPage implements OnInit {
 
   async handleRefresh(event: any) {
     try {
-      this.waitlistForm.reset();
-      this.waitlistForm.controls['phone'].setValue('+1');
+      this.waitlistForm.reset({
+        phone: '+1',
+        game: 'cash',
+      });
+      // this.waitlistForm.controls['phone'].setValue('+1');
       this.todayGames = [];
       this.errorMessage = '';
       this.firstUserModal = false;

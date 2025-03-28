@@ -1,5 +1,5 @@
 // home.page.ts
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import {
   IonCard,
@@ -17,12 +17,19 @@ import {
   IonLabel,
   IonItem,
   IonIcon,
+  IonImg,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { CommonModule } from '@angular/common';
 import { ApiService } from '../services/api.service';
 import { checkmark } from 'ionicons/icons';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { register } from 'swiper/element/bundle';
 
+import { TabsPage } from '../tabs/tabs.page';
+import Swiper from 'swiper';
+
+register();
 @Component({
   selector: 'app-home',
   templateUrl: './home.page.html',
@@ -45,9 +52,11 @@ import { checkmark } from 'ionicons/icons';
     IonLabel,
     IonItem,
     IonIcon,
+    IonImg,
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class HomePage implements OnInit {
+export class HomePage implements OnInit, OnDestroy {
   schedule: any[] = [];
   toc_is_live: boolean = false;
   toc: any;
@@ -55,18 +64,38 @@ export class HomePage implements OnInit {
   loading: boolean = true;
   todayGames: any[] = [];
   waitlist: any;
-  constructor(private scheduleService: ApiService, private route: Router) {
+  gallery: any;
+  swiperInstance: Swiper | null = null;
+  autoplay: boolean = false;
+  constructor(
+    private scheduleService: ApiService,
+    private route: Router,
+    private Tabs: TabsPage
+  ) {
     addIcons({ checkmark });
   }
 
-  async ngOnInit() {
+  ngOnInit() {
     this.loading = true;
     this.getSchedule();
     this.getTocSettings();
     this.getTodayGames();
     this.getWaitlist();
+    this.getGallery();
+    this.autoplay = true;
   }
 
+  ngOnDestroy(): void {
+    this.autoplay = false;
+  }
+
+  disableTabSwipe() {
+    console.log('trigger disable');
+    this.Tabs.disableTabSwipe();
+  }
+  enableTabSwipe() {
+    this.Tabs.enableTabSwipe();
+  }
   async getTodayGames() {
     this.scheduleService.getSchedule().then((response) => {
       response.forEach((day: { day: string; games: any[] }) => {
@@ -80,13 +109,6 @@ export class HomePage implements OnInit {
           }
         });
       });
-      // response
-      //   .filter(
-      //     (schedule: any) =>
-      //       schedule.day ===
-      //       new Date().toLocaleDateString('en-US', { weekday: 'long' })
-      //   )
-      //   .map((game: any) => this.todayGames.push(game));
     });
   }
 
@@ -94,6 +116,13 @@ export class HomePage implements OnInit {
     this.scheduleService.getWaitlist().then((response) => {
       console.log(response);
       this.waitlist = response;
+    });
+  }
+
+  async getGallery() {
+    this.scheduleService.getGalleryItems().then((response) => {
+      console.log(response);
+      this.gallery = response;
     });
   }
 
