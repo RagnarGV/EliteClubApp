@@ -9,7 +9,10 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
-  <div class="event-list animate-fade-in">
+  <div
+    *ngIf="specialEvents.length > 0; else noData"
+    class="event-list animate-fade-in"
+  >
     <ion-card
       *ngFor="let event of specialEvents"
       class="event-card animate-glow"
@@ -27,4 +30,7 @@
       </ion-card-content>
     </ion-card>
   </div>
+  <ng-template #noData>
+    <p class="animate-fade-in my-5 text-center">No Specials at the moment.</p>
+  </ng-template>
 </ion-content>
