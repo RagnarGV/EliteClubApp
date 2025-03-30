@@ -9,111 +9,110 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
-  <ng-container
-    class="form-container fade-in"
-    *ngIf="isCLubOpen === true else clubClosed"
-  >
-    <h2 class="page-title text-center golden-text">Join The Waitlist</h2>
-    <form [formGroup]="waitlistForm" (ngSubmit)="onSubmit()">
-      <ion-item class="input-item border-bottom border-warning">
-        <ion-label position="floating">First Name</ion-label>
-        <ion-input formControlName="firstName" type="text"></ion-input>
-      </ion-item>
-      <ion-item class="input-item border-bottom border-warning">
-        <ion-label position="floating">Last Initial</ion-label>
-        <ion-input
-          formControlName="lastInitial"
-          type="text"
-          maxlength="1"
-        ></ion-input>
-      </ion-item>
-      <ion-item class="input-item border-bottom border-warning">
-        <ion-label position="floating">Phone Number</ion-label>
+  <ng-container *ngIf="isCLubOpen === true else clubClosed">
+    <div class="form-container fade-in">
+      <h2 class="page-title text-center golden-text">Join The Waitlist</h2>
+      <form [formGroup]="waitlistForm" (ngSubmit)="onSubmit()">
+        <ion-item class="input-item border-bottom border-warning">
+          <ion-label position="floating">First Name</ion-label>
+          <ion-input formControlName="firstName" type="text"></ion-input>
+        </ion-item>
+        <ion-item class="input-item border-bottom border-warning">
+          <ion-label position="floating">Last Initial</ion-label>
+          <ion-input
+            formControlName="lastInitial"
+            type="text"
+            maxlength="1"
+          ></ion-input>
+        </ion-item>
+        <ion-item class="input-item border-bottom border-warning">
+          <ion-label position="floating">Phone Number</ion-label>
 
-        <ion-input
-          (ngModelChange)="phoneNumberChanged()"
-          formControlName="phone"
-          type="text"
-        ></ion-input>
-      </ion-item>
-      <ion-item class="input-item border-bottom border-warning">
-        <ion-select
-          label="Game Type"
-          labelPlacement="floating"
-          formControlName="game"
-          (ngModelChange)="onChangeGame()"
-        >
-          <ion-select-option value="cash"> Cash </ion-select-option>
-          <ion-select-option value="toc">
-            Tournament of Champoins
-          </ion-select-option>
-        </ion-select>
-      </ion-item>
-
-      <ion-item
-        class="input-item border-bottom border-warning"
-        *ngIf="tocSettings"
-      >
-        <ion-select
-          label="Select Day"
-          labelPlacement="floating"
-          formControlName="toc_day"
-          (ngModelChange)="onTocDaySelect()"
-        >
-          <ng-container *ngFor="let toc_set of tocSettings">
-            <ion-select-option [value]="toc_set.id">
-              {{toc_set.day_date}}
-            </ion-select-option>
-          </ng-container>
-        </ion-select>
-      </ion-item>
-      <p class="info-text">
-        Note: To see Tournament of Champoins waitlist select Tournament of
-        Champoins in Game Type
-      </p>
-      <h4 class="golden-text">Please choose a game.</h4>
-      <ion-radio-group *ngIf="!tocGame" formControlName="gameType">
-        <ion-list class="input-item">
-          <ion-item
-            class="input-item-check border-bottom border-warning"
-            *ngFor="let game of todayGames"
+          <ion-input
+            (ngModelChange)="phoneNumberChanged()"
+            formControlName="phone"
+            type="text"
+          ></ion-input>
+        </ion-item>
+        <ion-item class="input-item border-bottom border-warning">
+          <ion-select
+            label="Game Type"
+            labelPlacement="floating"
+            formControlName="game"
+            (ngModelChange)="onChangeGame()"
           >
-            <ion-radio [value]="game.gameType">
-              <!-- <ion-label
+            <ion-select-option value="cash"> Cash </ion-select-option>
+            <ion-select-option value="toc">
+              Tournament of Champoins
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-item
+          class="input-item border-bottom border-warning"
+          *ngIf="tocSettings"
+        >
+          <ion-select
+            label="Select Day"
+            labelPlacement="floating"
+            formControlName="toc_day"
+            (ngModelChange)="onTocDaySelect()"
+          >
+            <ng-container *ngFor="let toc_set of tocSettings">
+              <ion-select-option [value]="toc_set.id">
+                {{toc_set.day_date}}
+              </ion-select-option>
+            </ng-container>
+          </ion-select>
+        </ion-item>
+        <p class="info-text">
+          Note: To see Tournament of Champoins waitlist select Tournament of
+          Champoins in Game Type
+        </p>
+        <h4 class="golden-text">Please choose a game.</h4>
+        <ion-radio-group *ngIf="!tocGame" formControlName="gameType">
+          <ion-list class="input-item">
+            <ion-item
+              class="input-item-check border-bottom border-warning"
+              *ngFor="let game of todayGames"
+            >
+              <ion-radio [value]="game.gameType">
+                <!-- <ion-label
               >{{ game.gameType }} - {{game.buy_in? game.buy_in : 'NL'}}
               Buy-in
               </ion-label> -->
-              <ion-label>{{ game.gameType }}</ion-label>
-            </ion-radio>
-          </ion-item>
-        </ion-list>
-      </ion-radio-group>
+                <ion-label>{{ game.gameType }}</ion-label>
+              </ion-radio>
+            </ion-item>
+          </ion-list>
+        </ion-radio-group>
 
-      <ion-radio-group *ngIf="tocGame" formControlName="gameType">
-        <ion-list class="input-item">
-          <ion-item class="input-item-check border-bottom border-warning">
-            <ion-radio [value]="tocGame">
-              <ion-label>{{ tocGame }}</ion-label>
-            </ion-radio>
-          </ion-item>
-        </ion-list>
-      </ion-radio-group>
+        <ion-radio-group *ngIf="tocGame" formControlName="gameType">
+          <ion-list class="input-item">
+            <ion-item class="input-item-check border-bottom border-warning">
+              <ion-radio [value]="tocGame">
+                <ion-label>{{ tocGame }}</ion-label>
+              </ion-radio>
+            </ion-item>
+          </ion-list>
+        </ion-radio-group>
 
-      <ion-item class="input-item border-bottom border-warning">
-        <ion-checkbox justify="space-between" formControlName="smsUpdates"
-          >Send me SMS updates</ion-checkbox
+        <ion-item class="input-item border-bottom border-warning">
+          <ion-checkbox justify="space-between" formControlName="smsUpdates"
+            >Send me SMS updates</ion-checkbox
+          >
+        </ion-item>
+
+        <ion-button
+          expand="block"
+          class="glowing-btn"
+          type="submit"
+          [disabled]="waitlistForm.invalid"
         >
-      </ion-item>
-
-      <ion-button
-        expand="block"
-        class="glowing-btn"
-        type="submit"
-        [disabled]="waitlistForm.invalid"
-      >
-        Join List
-      </ion-button>
-    </form>
+          Join List
+        </ion-button>
+      </form>
+    </div>
   </ng-container>
   <ng-template #clubClosed>
     <ion-card
