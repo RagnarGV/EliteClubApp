@@ -51,12 +51,12 @@
   </ion-refresher>
 
   <div class="text-center">
-    <h2 class="page-title text-gold">Weekly Cash Game Schedule</h2>
-    <p class="animate-fade-in">
+    <h2 class="page-title text-gold">Weekly Schedule</h2>
+    <!-- <p class="animate-fade-in">
       Club Elite is open seven days a week.<br />
       <strong>Monday - Friday:</strong> 7 PM - 4 AM<br />
       <strong>Weekends & Holidays:</strong> 3 PM - 4 AM
-    </p>
+    </p> -->
   </div>
 
   <p-timeline
@@ -68,12 +68,13 @@
     <ng-template #marker let-event> </ng-template>
     <ng-template #content let-schedule>
       <p-card
-        class="card ion-padding bg-transparent border border-warning text-white"
-        [header]="schedule.day"
+        class="card fw-bold text-center pt-4 ion-padding bg-transparent border border-warning text-white"
         [subheader]="schedule.time"
       >
         <!-- <p>{{schedule.day}}</p> -->
-
+        <ng-template #header>
+          <h2>{{schedule.day}}</h2>
+        </ng-template>
         <div *ngFor="let game of schedule.games" class="game-info">
           <strong>{{ game.gameType }}</strong>
           <p>{{ game.limit }}</p>

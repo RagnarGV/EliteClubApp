@@ -98,17 +98,21 @@ export class HomePage implements OnInit, OnDestroy {
   }
   async getTodayGames() {
     this.scheduleService.getSchedule().then((response) => {
-      response.forEach((day: { day: string; games: any[] }) => {
-        day.games.forEach((game: { date: string }) => {
-          if (
-            day.day ===
-            new Date().toLocaleDateString('en-US', { weekday: 'long' })
-          ) {
-            console.log(game);
-            this.todayGames.push(game);
+      response.forEach(
+        (day: { day: string; is_live: boolean; games: any[] }) => {
+          if (day.is_live == true) {
+            day.games.forEach((game: { date: string }) => {
+              if (
+                day.day ===
+                new Date().toLocaleDateString('en-US', { weekday: 'long' })
+              ) {
+                console.log(game);
+                this.todayGames.push(game);
+              }
+            });
           }
-        });
-      });
+        }
+      );
     });
   }
 

@@ -8,16 +8,17 @@
   <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
-  <h1 class="title animate-fade-in">WELCOME TO ELITE CLUB</h1>
-  <!-- <ion-card class="image-card bg-transparent animate-zoom-in"> </ion-card> -->
-  <div class="welcome-section">
+  <h1 class="title animate-fade-in">WELCOME TO CLUB ELITE</h1>
+  <div class="text-center">
     <img
-      class="image-card bg-transparent animate-zoom-in"
+      class="bg-transparent animate-zoom-in"
       src="../../assets/club_logo.png"
       height="150px"
       alt="Poker Club"
     />
+  </div>
 
+  <div class="text-center ion-padding">
     <swiper-container
       id="mySwiper"
       effect="fade"
@@ -33,19 +34,79 @@
         ><ion-img [src]="pics.image" alt=""
       /></swiper-slide>
     </swiper-container>
+    <!-- <div
+      id="carouselExampleControls"
+      class="carousel slide"
+      data-bs-ride="carousel"
+    >
+      <div
+        id="carouselExampleFade"
+        class="carousel slide swiper-container carousel-fade"
+      >
+        <div class="carousel-inner">
+          <div
+            class="carousel-item active swiper-container"
+            *ngFor="let img of gallery"
+          >
+            <img
+              [src]="img.image"
+              class="d-block w-100 swiper-slide"
+              alt="..."
+            />
+          </div>
+        </div>
+        <button
+          class="carousel-control-prev"
+          type="button"
+          data-bs-target="#carouselExampleFade"
+          data-bs-slide="prev"
+        >
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button
+          class="carousel-control-next"
+          type="button"
+          data-bs-target="#carouselExampleFade"
+          data-bs-slide="next"
+        >
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+      <button
+        class="carousel-control-prev"
+        type="button"
+        data-bs-target="#carouselExampleControls"
+        data-bs-slide="prev"
+      >
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button
+        class="carousel-control-next"
+        type="button"
+        data-bs-target="#carouselExampleControls"
+        data-bs-slide="next"
+      >
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div> -->
     <h4 class="subtitle animate-slide-up">Shuffle up and deal!</h4>
     <p class="description animate-slide-up">
       Your premier destination for exciting poker action in a welcoming
       atmosphere. Join us today for thrilling cash games and tournaments!
     </p>
   </div>
-  <ion-card-header>
-    <ion-card-title>Today's Schedule</ion-card-title>
-  </ion-card-header>
+
   <ion-card class="schedule-card animate-fade-in animate-slide-up ion-padding">
     <ion-card-content>
       <ng-container *ngFor="let day of schedule">
         <div *ngIf="day.is_live == true else noSchedule">
+          <ion-card-header>
+            <ion-card-title>Today's Schedule</ion-card-title>
+          </ion-card-header>
           <h2 class="text-center mb-3">{{ day.time }}</h2>
           <ng-container *ngFor="let game of day.games">
             <div class="row">
@@ -65,6 +126,9 @@
           >
             Join List
           </ion-button>
+          <ion-button expand="block" class="glowing-btn" href="/tabs/toc">
+            TOC waitlist
+          </ion-button>
         </div>
         <ng-template #noSchedule>
           <ion-card-title class="text-center"
@@ -72,10 +136,6 @@
           >
         </ng-template>
       </ng-container>
-
-      <ion-button expand="block" class="glowing-btn" href="/tabs/toc">
-        TOC waitlist
-      </ion-button>
     </ion-card-content>
   </ion-card>
 
