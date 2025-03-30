@@ -52,6 +52,8 @@ import { calendar } from 'ionicons/icons';
 export class SchedulePage implements OnInit {
   schedule: any[] = [];
   currentDay: string;
+  tocSchedule: any[] = [];
+  finalSchedule: any[] = [];
 
   constructor(private scheduleService: ApiService) {
     this.currentDay = new Date().toLocaleDateString('en-US', {
@@ -62,6 +64,7 @@ export class SchedulePage implements OnInit {
 
   ngOnInit(): void {
     this.getSchedule();
+    // this.getTocSchedule();
   }
 
   async handleRefresh(event: any) {
@@ -73,36 +76,60 @@ export class SchedulePage implements OnInit {
   }
   async getSchedule() {
     try {
-      const data = await this.scheduleService.getSchedule();
-      this.schedule = data.filter((schedule: any) => schedule.is_live == true);
+      const scheduleData = await this.scheduleService.getSchedule();
+      const tocData = await this.scheduleService.getTocSettings();
 
-      // Wait for view to be initialized
-      setTimeout(() => {
-        const currentDayIndex = this.schedule.findIndex(
-          (day) => day.day.toLowerCase() === this.currentDay.toLowerCase()
+      this.schedule = scheduleData.filter((s: any) => s.is_live == true);
+      this.tocSchedule = tocData.filter((t: any) => t.is_live == true);
+
+      this.finalSchedule = this.schedule.map((sched: any) => {
+        const matchingToc = this.tocSchedule.filter(
+          (toc: any) => toc.day_date === sched.day
         );
 
-        if (currentDayIndex !== -1) {
-          const accordionGroup = document.querySelector(
-            'ion-accordion-group'
-          ) as HTMLIonAccordionGroupElement;
-          if (accordionGroup) {
-            accordionGroup.value = `day${currentDayIndex}`;
-          }
-        }
+        // Merge games from tocSchedule
+        const mergedGames = [...sched.games];
+
+        matchingToc.forEach((toc: any) => {
+          mergedGames.push({
+            gameType: toc.gameType,
+            limit: toc.buy_in,
+            description: toc.description,
+            seats: toc.seats,
+          });
+        });
+
+        return {
+          ...sched,
+          games: mergedGames,
+        };
       });
+
+      console.log(this.finalSchedule);
     } catch (error) {
       console.error('Error fetching schedule:', error);
     }
   }
-  toggleAccordion(event: any, index: number) {
-    const accordionItems = document.querySelectorAll('.accordion-item');
-    accordionItems.forEach((item, i) => {
-      if (i !== index) {
-        item.classList.remove('active');
-      }
-    });
 
-    event.currentTarget.parentNode.classList.toggle('active');
-  }
+  // async getSchedule() {
+  //   try {
+  //     const data = await this.scheduleService.getSchedule();
+  //     this.schedule = data.filter((schedule: any) => schedule.is_live == true);
+  //     console.log(this.schedule);
+  //   } catch (error) {
+  //     console.error('Error fetching schedule:', error);
+  //   }
+  // }
+
+  // async getTocSchedule() {
+  //   try {
+  //     const data = await this.scheduleService.getTocSettings();
+  //     this.tocSchedule = data.filter(
+  //       (schedule: any) => schedule.is_live == true
+  //     );
+  //     console.log(this.tocSchedule);
+  //   } catch (error) {
+  //     console.error('Error fetching schedule:', error);
+  //   }
+  // }
 }

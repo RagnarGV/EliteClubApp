@@ -23,6 +23,8 @@ import {
   IonRefresherContent,
   IonRadioGroup,
   IonCard,
+  IonCardTitle,
+  IonCardContent,
   IonSelect,
   IonSelectOption,
   IonIcon,
@@ -55,6 +57,8 @@ import { checkmark } from 'ionicons/icons';
     IonRefresherContent, // Add this
     IonRadioGroup,
     IonCard,
+    IonCardTitle,
+    IonCardContent,
     IonSelect,
     IonSelectOption,
     IonIcon,
@@ -75,6 +79,7 @@ export class WaitlistPage implements OnInit {
   tocSettings: any;
   tocGame: any;
   tocSettingsId: any;
+  isCLubOpen: boolean = false;
   // phoneNumberPrefix: string = '+1';
 
   constructor(private fb: FormBuilder, private waitlistService: ApiService) {
@@ -99,6 +104,19 @@ export class WaitlistPage implements OnInit {
   ngOnInit(): void {
     this.getWaitlist();
     this.getTodayGames();
+    this.waitlistService.getSchedule().then((response) => {
+      response.forEach((day: any) => {
+        day.games.forEach(() => {
+          if (
+            day.day ===
+              new Date().toLocaleDateString('en-US', { weekday: 'long' }) &&
+            day.is_live == true
+          ) {
+            this.isCLubOpen = true;
+          }
+        });
+      });
+    });
   }
 
   onChangeGame() {
@@ -148,11 +166,12 @@ export class WaitlistPage implements OnInit {
   }
   async getTodayGames() {
     this.waitlistService.getSchedule().then((response) => {
-      response.forEach((day: { day: string; games: any[] }) => {
+      response.forEach((day: any) => {
         day.games.forEach((game: { date: string }) => {
           if (
             day.day ===
-            new Date().toLocaleDateString('en-US', { weekday: 'long' })
+              new Date().toLocaleDateString('en-US', { weekday: 'long' }) &&
+            day.is_live == true
           ) {
             console.log(game);
             this.todayGames.push(game);

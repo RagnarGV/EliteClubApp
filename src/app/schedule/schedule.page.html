@@ -60,7 +60,7 @@
   </div>
 
   <p-timeline
-    [value]="schedule"
+    [value]="finalSchedule"
     align="alternate"
     styleClass="customized-timeline"
     class="ion-padding"
@@ -76,6 +76,7 @@
           <h2>{{schedule.day}}</h2>
         </ng-template>
         <div *ngFor="let game of schedule.games" class="game-info">
+          <p *ngIf="game.description">{{game.description}}</p>
           <strong>{{ game.gameType }}</strong>
           <p>{{ game.limit }}</p>
         </div>
