@@ -25,16 +25,21 @@ import {
   IonCard,
   IonCardTitle,
   IonCardContent,
+  IonSelect,
+  IonSelectOption,
   IonIcon,
+  IonButtons,
 } from '@ionic/angular/standalone';
+import { NavController } from '@ionic/angular';
 import { addIcons } from 'ionicons';
 import { ApiService } from '../services/api.service';
 import { checkmark } from 'ionicons/icons';
+import { arrowBackOutline } from 'ionicons/icons';
 
 @Component({
-  selector: 'app-waitlist',
-  templateUrl: './waitlist.page.html',
-  styleUrls: ['./waitlist.page.scss'],
+  selector: 'app-pre-reg-toc',
+  templateUrl: './pre-reg-toc.page.html',
+  styleUrls: ['./pre-reg-toc.page.scss'],
   standalone: true,
   imports: [
     IonHeader,
@@ -45,6 +50,7 @@ import { checkmark } from 'ionicons/icons';
     IonLabel,
     IonInput,
     IonButton,
+    IonButtons,
     IonItem,
     IonRadio,
     IonCheckbox,
@@ -62,7 +68,7 @@ import { checkmark } from 'ionicons/icons';
   providers: [ApiService],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class WaitlistPage implements OnInit {
+export class PreRegTOCPage implements OnInit {
   waitlistForm: FormGroup;
   waitlist: any[] = [];
   errorMessage: string = '';
@@ -78,8 +84,14 @@ export class WaitlistPage implements OnInit {
   tocSettingsId: any;
   isCLubOpen: boolean = false;
   loading: boolean = true;
+  // phoneNumberPrefix: string = '+1';
 
-  constructor(private fb: FormBuilder, private waitlistService: ApiService) {
+  constructor(
+    private fb: FormBuilder,
+    private waitlistService: ApiService,
+    private navCtrl: NavController
+  ) {
+    addIcons({ arrowBackOutline });
     this.waitlistForm = this.fb.group({
       firstName: ['', [Validators.required]],
       lastInitial: ['', [Validators.required, Validators.maxLength(1)]],
@@ -90,7 +102,7 @@ export class WaitlistPage implements OnInit {
           Validators.pattern(/^\+1[0-9]{10}$/),
         ]),
       ],
-      game: ['cash', Validators.required],
+      game: ['toc', Validators.required],
       toc_day: [''],
       gameType: ['', Validators.required], // Radio buttons update this field
       smsUpdates: [false],
@@ -100,22 +112,24 @@ export class WaitlistPage implements OnInit {
 
   ngOnInit(): void {
     this.loading = true;
-    this.getWaitlist();
     this.getTodayGames();
-    this.waitlistService.getSchedule().then((response) => {
+    this.waitlistService.getTocSettings().then((response) => {
       response.forEach((day: any) => {
-        day.games.forEach(() => {
-          if (
-            day.day ===
-              new Date().toLocaleDateString('en-US', { weekday: 'long' }) &&
-            day.is_live == true
-          ) {
-            this.isCLubOpen = true;
-            this.loading = false;
-          }
-        });
+        if (
+          day.day_date ===
+            new Date().toLocaleDateString('en-US', { weekday: 'long' }) &&
+          day.is_live == true
+        ) {
+          this.isCLubOpen = true;
+          this.loading = false;
+        }
       });
     });
+    this.getTocDays();
+  }
+
+  goBack() {
+    this.navCtrl.back();
   }
 
   // onChangeGame() {
@@ -127,7 +141,7 @@ export class WaitlistPage implements OnInit {
   //   } else if (this.waitlistForm.controls['game'].value === 'cash') {
   //     this.tocSettings = '';
   //     this.waitlistForm.controls['toc_day'].reset;
-  //     this.getWaitlist();
+
   //     this.getTodayGames();
   //   }
   // }
@@ -149,6 +163,7 @@ export class WaitlistPage implements OnInit {
       this.waitlistForm.reset({
         phone: '+1',
       });
+
       this.errorMessage = '';
       this.firstUserModal = false;
       this.verificationId = '';
@@ -162,48 +177,54 @@ export class WaitlistPage implements OnInit {
     }
   }
   async getTodayGames() {
-    this.waitlistService.getSchedule().then((response) => {
+    this.waitlistService.getTocSettings().then((response) => {
       response.forEach((day: any) => {
-        day.games.forEach((game: { date: string }) => {
-          if (
-            day.day ===
-              new Date().toLocaleDateString('en-US', { weekday: 'long' }) &&
-            day.is_live == true
-          ) {
-            console.log(game);
-            this.todayGames.push(game);
-          }
-        });
+        if (
+          day.day_date ===
+            new Date().toLocaleDateString('en-US', { weekday: 'long' }) &&
+          day.is_live == true
+        ) {
+          this.tocSettingsId = day.id;
+          this.todayGames.push(day);
+          this.getTocWaitlist(this.tocSettingsId);
+        }
       });
     });
   }
 
-  async getWaitlist() {
-    this.waitlistService.getWaitlist().then((response) => {
+  async getTocDays() {
+    this.waitlistService.getTocSettings().then((response) => {
+      this.tocSettings = response.filter((x: any) => x.is_live == true);
+      console.log(this.tocSettings);
+    });
+  }
+  async getTocWaitlist(id: any) {
+    this.waitlistService.getTOC(id).then((response) => {
       console.log(response);
       this.waitlist = response;
     });
   }
 
   async onSubmit() {
-    this.tocSettingsId = this.waitlistForm.controls['toc_day'].value;
-
     if (this.waitlistForm.valid) {
       const formData = this.waitlistForm.value;
+
       console.log(formData);
       try {
         const isVerified = await this.waitlistService.checkVerification(
           formData.phone
         );
         if (isVerified) {
-          await this.waitlistService.addToWaitlist(formData);
+          await this.waitlistService.addToTOCWaitlist(
+            this.tocSettingsId,
+            formData
+          );
           this.waitlistForm.reset();
           this.waitlistForm.controls['phone'].setValue('+1');
-          this.getWaitlist();
+          this.getTocWaitlist(this.tocSettingsId);
         } else {
           this.phoneNumber = this.waitlistForm.controls['phone'].value;
           this.firstUserModal = true;
-          console.log(this.firstUserModal);
         }
       } catch (error) {
         console.error('Error:', error);
@@ -246,12 +267,11 @@ export class WaitlistPage implements OnInit {
     );
     if (isVerified) {
       await this.waitlistService.saveUser(formData);
-      await this.waitlistService.addToWaitlist(formData);
+      await this.waitlistService.addToTOCWaitlist(this.tocSettingsId, formData);
       this.authMessage = 'OTP verified! User authenticated.';
       this.firstUserModal = false;
       this.waitlistForm.reset();
       this.waitlistForm.controls['phone'].setValue('+1');
-      this.getWaitlist();
     } else {
       this.authMessage = 'Invalid OTP. Please try again.';
     }

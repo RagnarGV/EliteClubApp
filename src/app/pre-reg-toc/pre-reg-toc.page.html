@@ -1,6 +1,11 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Waitlist</ion-title>
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()" color="warning">
+        <ion-icon size="large" name="arrow-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>TOC Registration</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -15,7 +20,7 @@
   ></ion-loading>
   <ng-container *ngIf="isCLubOpen === true else clubClosed">
     <div class="form-container fade-in">
-      <h2 class="page-title text-center golden-text">Join The Waitlist</h2>
+      <h2 class="page-title text-center golden-text">Join TOC Waitlist</h2>
       <form [formGroup]="waitlistForm" (ngSubmit)="onSubmit()">
         <ion-item class="input-item border-bottom border-warning">
           <ion-label position="floating">First Name</ion-label>
@@ -45,7 +50,7 @@
             formControlName="game"
             (ngModelChange)="onChangeGame()"
           >
-            <ion-select-option value="cash"> Cash </ion-select-option>
+
             <ion-select-option value="toc">
               Tournament of Champoins
             </ion-select-option>
@@ -153,7 +158,7 @@
           >Verify</ion-button
         >
       </div>
-      <p *ngIf="authMessage" class="text-gold text-center">{{ authMessage }}</p>
+      <p *ngIf="authMessage" class="error-text">{{ authMessage }}</p>
     </ion-card>
   </div>
 

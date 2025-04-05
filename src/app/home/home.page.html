@@ -8,6 +8,11 @@
   <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
+  <ion-loading
+    class="custom-loading"
+    [isOpen]="loading"
+    message="Loading..."
+  ></ion-loading>
   <h1 class="title animate-fade-in">WELCOME TO CLUB ELITE</h1>
   <div class="text-center">
     <img
@@ -103,7 +108,7 @@
   <ion-card class="schedule-card animate-fade-in animate-slide-up ion-padding">
     <ion-card-content>
       <ng-container *ngFor="let day of schedule">
-        <div *ngIf="day.is_live == true else noSchedule">
+        <div *ngIf="isClubOpen === true else noSchedule">
           <ion-card-header>
             <ion-card-title>Today's Schedule</ion-card-title>
           </ion-card-header>
@@ -121,13 +126,20 @@
           <p class="text-center mt-3">{{ day.description }}</p>
           <ion-button
             expand="block"
-            class="glowing-btn my-4"
+            class="glowing-btn m-3"
             href="/tabs/waitlist"
           >
             Join List
           </ion-button>
-          <ion-button expand="block" class="glowing-btn" href="/tabs/toc">
+          <!-- <ion-button expand="block" class="glowing-btn m-3" href="/tabs/toc">
             TOC waitlist
+          </ion-button> -->
+          <ion-button
+            expand="block"
+            class="glowing-btn m-3"
+            href="/tabs/pre-reg-toc"
+          >
+            Pre-registration for TOC
           </ion-button>
         </div>
         <ng-template #noSchedule>
@@ -139,7 +151,7 @@
     </ion-card-content>
   </ion-card>
 
-  <div *ngFor="let game of todayGames" class="ion-padding fade-in">
+  <!-- <div *ngFor="let game of todayGames" class="ion-padding fade-in">
     <h3 class="golden-text">{{game.gameType}}</h3>
     <p class="info-text">
       <ion-icon name="checkmark"></ion-icon> indicates the player is checked in
@@ -168,5 +180,5 @@
         No players on the waitlist yet. Be the first to join!
       </p>
     </ng-template>
-  </div>
+  </div> -->
 </ion-content>

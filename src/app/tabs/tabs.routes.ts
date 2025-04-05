@@ -47,6 +47,13 @@ export const routes: Routes = [
         path: 'toc',
         loadComponent: () => import('../toc/toc.page').then((m) => m.TocPage),
       },
+      {
+        path: 'pre-reg-toc',
+        loadComponent: () =>
+          import('../pre-reg-toc/pre-reg-toc.page').then(
+            (m) => m.PreRegTOCPage
+          ),
+      },
     ],
   },
   {

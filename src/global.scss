@@ -53,6 +53,13 @@ ion-title {
   text-align: center;
 }
 
+ion-loading.custom-loading {
+  --background: #1f1f1f;
+  --spinner-color: goldenrod;
+
+  color: gold;
+}
+
 .page-title {
   font-family: Arial, Helvetica, sans-serif;
   font-style: bold;

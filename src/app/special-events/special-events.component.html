@@ -8,7 +8,11 @@
   <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
-
+  <ion-loading
+    class="custom-loading"
+    [isOpen]="loading"
+    message="Loading..."
+  ></ion-loading>
   <div
     *ngIf="specialEvents.length > 0; else noData"
     class="event-list animate-fade-in"

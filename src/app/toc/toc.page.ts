@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   FormsModule,
@@ -14,23 +14,20 @@ import {
   IonContent,
   IonList,
   IonLabel,
-  IonInput,
   IonButton,
-  IonCheckbox,
   IonItem,
-  IonRadio,
   IonRefresher,
   IonRefresherContent,
-  IonRadioGroup,
   IonButtons,
   IonIcon,
-  IonCard,
+  IonLoading,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { ApiService } from '../services/api.service';
 import { ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { arrowBackOutline } from 'ionicons/icons';
+import { checkmark } from 'ionicons/icons';
 @Component({
   selector: 'app-toc',
   templateUrl: './toc.page.html',
@@ -43,22 +40,19 @@ import { arrowBackOutline } from 'ionicons/icons';
     IonContent,
     IonList,
     IonLabel,
-    IonInput,
     IonButton,
     IonItem,
-    IonRadio,
-    IonCheckbox,
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    IonRefresher, // Add this
-    IonRefresherContent, // Add this
-    IonRadioGroup,
+    IonRefresher,
+    IonRefresherContent,
     IonButtons,
     IonIcon,
-    IonCard,
+    IonLoading,
   ],
   providers: [ApiService],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class TocPage implements OnInit {
   waitlistForm: FormGroup;
@@ -73,14 +67,13 @@ export class TocPage implements OnInit {
   recaptchaVerifier: any;
   todayGames: any[] = [];
   allTocDays: any;
-
+  loading: boolean = true;
   constructor(
     private navCtrl: NavController,
-    private _route: ActivatedRoute,
     private fb: FormBuilder,
     private waitlistService: ApiService
   ) {
-    addIcons({ arrowBackOutline });
+    addIcons({ arrowBackOutline, checkmark });
     this.waitlistForm = this.fb.group({
       firstName: ['', [Validators.required]],
       lastInitial: ['', [Validators.required, Validators.maxLength(1)]],
@@ -99,6 +92,7 @@ export class TocPage implements OnInit {
     this.navCtrl.back();
   }
   ngOnInit(): void {
+    this.loading = true;
     this.getWaitlist();
     this.getAllTocDays();
     // this.getTodayGames();
@@ -108,7 +102,6 @@ export class TocPage implements OnInit {
     try {
       await this.getWaitlist();
       await this.getAllTocDays();
-      //await this.getTodayGames();
       this.waitlistForm.reset();
       this.waitlistForm.controls['phone'].setValue('+1');
       this.todayGames = [];
@@ -138,75 +131,7 @@ export class TocPage implements OnInit {
     this.waitlistService.getTocSettings().then((response) => {
       console.log(response);
       this.allTocDays = response.filter((days: any) => days.is_live == true);
+      this.loading = false;
     });
   }
-
-  phoneNumberChanged() {
-    this.firstUserModal = false;
-  }
-  // async onSubmit() {
-  //   if (this.waitlistForm.valid) {
-  //     const formData = this.waitlistForm.value;
-
-  //     console.log(formData);
-  //     try {
-  //       const isVerified = await this.waitlistService.checkVerification(
-  //         formData.phone
-  //       );
-  //       if (isVerified) {
-  //         await this.waitlistService.addToTOCWaitlist(this.id, formData);
-  //         this.waitlistForm.reset();
-  //         this.waitlistForm.controls['phone'].setValue('+1');
-  //         this.getWaitlist();
-  //       } else {
-  //         this.phoneNumber = this.waitlistForm.controls['phone'].value;
-  //         this.firstUserModal = true;
-  //       }
-  //     } catch (error) {
-  //       console.error('Error:', error);
-  //       this.errorMessage = 'An error occurred. Please try again later.';
-  //     }
-  //   } else {
-  //     console.log('Form is invalid');
-  //   }
-  // }
-
-  // async sendOTP() {
-  //   if (!this.phoneNumber.startsWith('+')) {
-  //     this.authMessage =
-  //       'Enter phone number with country code (e.g., +15551234567)';
-  //     return;
-  //   }
-
-  //   console.log(this.phoneNumber);
-  //   const isSent = await this.waitlistService.sendOtp(this.phoneNumber);
-  //   if (isSent) {
-  //     this.verificationSent = true;
-  //     this.authMessage = 'OTP sent successfully!';
-  //   }
-  // }
-
-  // async verifyOTP() {
-  //   const formData = this.waitlistForm.value;
-  //   if (!this.otpCode) {
-  //     this.authMessage = 'Please enter the OTP.';
-  //     return;
-  //   }
-
-  //   const isVerified = await this.waitlistService.verifyOtp(
-  //     this.phoneNumber,
-  //     this.otpCode
-  //   );
-  //   if (isVerified) {
-  //     await this.waitlistService.saveUser(formData);
-  //     await this.waitlistService.addToTOCWaitlist(this.id, formData);
-  //     this.authMessage = 'OTP verified! User authenticated.';
-  //     this.firstUserModal = false;
-  //     this.waitlistForm.reset();
-  //     this.waitlistForm.controls['phone'].setValue('+1');
-  //     this.getWaitlist();
-  //   } else {
-  //     this.authMessage = 'Invalid OTP. Please try again.';
-  //   }
-  // }
 }
