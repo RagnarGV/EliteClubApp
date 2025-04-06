@@ -107,47 +107,48 @@
 
   <ion-card class="schedule-card animate-fade-in animate-slide-up ion-padding">
     <ion-card-content>
-      <ng-container *ngFor="let day of schedule">
-        <div *ngIf="isClubOpen === true else noSchedule">
+      <ng-container *ngIf="isClubOpen === true else noSchedule">
+        <ng-container *ngFor="let day of schedule">
           <ion-card-header>
             <ion-card-title>Today's Schedule</ion-card-title>
           </ion-card-header>
-          <h2 class="text-center mb-3">{{ day.time }}</h2>
+          <h2 class="text-center mb-3">{{ day.day }}</h2>
           <ng-container *ngFor="let game of day.games">
             <div class="row">
               <div class="col">
                 <h2><strong>{{ game.gameType }}</strong></h2>
               </div>
               <div class="col">
-                <h2 class="float-end"><p>{{ game.limit }}</p></h2>
+                <h2 class="float-end"><strong>{{ game.limit }}</strong></h2>
               </div>
             </div>
           </ng-container>
-          <p class="text-center mt-3">{{ day.description }}</p>
+          <p class="text-center mt-3">{{ day.time }}</p>
           <ion-button
             expand="block"
             class="glowing-btn m-3"
             href="/tabs/waitlist"
           >
-            Join List
+            Join Cash Game Waitist
           </ion-button>
           <!-- <ion-button expand="block" class="glowing-btn m-3" href="/tabs/toc">
             TOC waitlist
           </ion-button> -->
           <ion-button
+            *ngIf="toc_is_live === true"
             expand="block"
             class="glowing-btn m-3"
             href="/tabs/pre-reg-toc"
           >
             Pre-registration for TOC
           </ion-button>
-        </div>
-        <ng-template #noSchedule>
-          <ion-card-title class="text-center"
-            >We are currrently closed</ion-card-title
-          >
-        </ng-template>
+        </ng-container>
       </ng-container>
+      <ng-template #noSchedule>
+        <ion-card-title class="text-center"
+          >We are currrently closed</ion-card-title
+        >
+      </ng-template>
     </ion-card-content>
   </ion-card>
 

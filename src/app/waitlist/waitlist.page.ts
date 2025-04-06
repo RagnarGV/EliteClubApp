@@ -105,13 +105,13 @@ export class WaitlistPage implements OnInit {
     this.waitlistService.getSchedule().then((response) => {
       response.forEach((day: any) => {
         day.games.forEach(() => {
+          this.loading = false;
           if (
             day.day ===
               new Date().toLocaleDateString('en-US', { weekday: 'long' }) &&
             day.is_live == true
           ) {
             this.isCLubOpen = true;
-            this.loading = false;
           }
         });
       });

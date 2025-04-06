@@ -22,7 +22,6 @@ import { checkmark } from 'ionicons/icons';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { register } from 'swiper/element/bundle';
 import { TabsPage } from '../tabs/tabs.page';
-
 import Swiper from 'swiper';
 
 register();
@@ -128,12 +127,15 @@ export class HomePage implements OnInit {
     this.scheduleService.getTocSettings().then((toc) => {
       this.toc = toc;
       toc.forEach((element: any) => {
-        if (element.is_live == true) {
+        if (
+          element.day_date === this.getCurrentDay() &&
+          element.is_live == true
+        ) {
           this.toc_count++;
+          this.toc_is_live = true;
         }
       });
 
-      this.toc_is_live = toc?.[0]?.is_live == 1;
       console.log(this.toc_count);
     });
   }
