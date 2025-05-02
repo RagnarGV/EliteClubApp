@@ -45,6 +45,7 @@ ion-button {
 .glowing-btn {
   --background: goldenrod;
   --background-activated: gold;
+  border-radius: 15px;
   box-shadow: 0px 0px 10px gold;
   transition: transform 0.2s;
 }
