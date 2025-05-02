@@ -22,10 +22,25 @@ ion-content {
 .schedule-header:hover {
   background: rgba(255, 215, 0, 0.2);
 }
+.row {
+  display: flex;
+}
+
+.col-6 {
+  display: flex;
+  flex-direction: column;
+}
+
+.card {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: fit-content; // fills available space
+}
+
 .schedule-card {
   background: #000000b3;
   border-radius: 10px;
-  height: 170px;
   box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
 }
 .schedule-content {

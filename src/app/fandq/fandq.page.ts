@@ -6,6 +6,10 @@ import {
   IonHeader,
   IonTitle,
   IonToolbar,
+  IonAccordion,
+  IonAccordionGroup,
+  IonItem,
+  IonLabel,
 } from '@ionic/angular/standalone';
 
 @Component({
@@ -18,6 +22,10 @@ import {
     IonHeader,
     IonTitle,
     IonToolbar,
+    IonAccordion,
+    IonAccordionGroup,
+    IonItem,
+    IonLabel,
     CommonModule,
     FormsModule,
   ],

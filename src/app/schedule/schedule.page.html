@@ -21,31 +21,37 @@
       <strong>Weekends & Holidays:</strong> 3 PM - 4 AM
     </p> -->
   </div>
-  <div class="row">
-    <div class="col ion-padding">
-      <h1 class="text-center">Cash Game</h1>
-      <div
-        class="card schedule-card border fw-bold border-warning bg-transparent text-white text-center my-3"
-        *ngFor="let schedule of schedule"
-      >
-        <h2 class="text-gold">{{schedule.day}}</h2>
-        <div *ngFor="let game of schedule.games" class="game-info">
-          <p *ngIf="game.description">{{game.description}}</p>
-          <strong>{{ game.gameType }}</strong>
-          <p>{{ game.limit }}</p>
+  <div class="container">
+    <div class="row">
+      <div class="col-6 ion-padding">
+        <h1 class="text-center">Cash Game</h1>
+        <div
+          class="card schedule-card border fw-bold border-warning bg-transparent text-white text-center my-3"
+          *ngFor="let schedule of schedule"
+        >
+          <h2 class="text-gold">{{schedule.day}}</h2>
+          <div *ngFor="let game of schedule.games" class="game-info">
+            <p *ngIf="game.description">{{game.description}}</p>
+            <strong>{{ game.gameType }}</strong>
+            <p>{{ game.limit }}</p>
+          </div>
+          <p>{{schedule.time}}</p>
         </div>
-        <p>{{schedule.time}}</p>
       </div>
-    </div>
-    <div class="col ion-padding">
-      <h1 class="text-center">Tournament</h1>
-      <div
-        class="card schedule-card border fw-bold border-warning bg-transparent text-white text-center my-3"
-        *ngFor="let schedule of tocSchedule"
-      >
-        <h2 class="text-gold">{{schedule.day_date}}</h2>
-        <strong class="game-info">{{ schedule.gameType }}</strong>
-        <p>{{ schedule.buy_in }}</p>
+      <div class="col-6 ion-padding">
+        <h1 class="text-center">Tournament</h1>
+        <div
+          class="card schedule-card border fw-bold border-warning bg-transparent text-white text-center my-3"
+          *ngFor="let schedule of tocSchedule"
+        >
+          <h2 class="text-gold">{{schedule.day_date}}</h2>
+          <strong class="game-info">{{ schedule.gameType }}</strong>
+          <p>{{ schedule.buy_in }}</p>
+          <p>
+            {{schedule.time}} <br />
+            {{schedule.description}}
+          </p>
+        </div>
       </div>
     </div>
   </div>

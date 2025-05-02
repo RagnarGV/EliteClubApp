@@ -164,6 +164,7 @@
 
   <div *ngFor="let game of todayGames" class="waitlist-container fade-in">
     <h3 class="golden-text">{{game.gameType}}</h3>
+    <p>Available seats: {{game.seats - waitlist.length}}</p>
     <p class="info-text">
       <ion-icon name="checkmark"></ion-icon> indicates the player is checked in
       at the club
