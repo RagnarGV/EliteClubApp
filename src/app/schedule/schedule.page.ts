@@ -51,9 +51,19 @@ export class SchedulePage implements OnInit {
 
   async ngOnInit(): Promise<void> {
     this.loading = true;
+
     this.getSchedule();
     this.getTocSchedule();
   }
+  private weekdayOrder: { [key: string]: number } = {
+    Monday: 0,
+    Tuesday: 1,
+    Wednesday: 2,
+    Thursday: 3,
+    Friday: 4,
+    Saturday: 5,
+    Sunday: 6,
+  };
 
   async handleRefresh(event: any) {
     try {
@@ -67,8 +77,12 @@ export class SchedulePage implements OnInit {
   async getSchedule() {
     try {
       const data = await this.scheduleService.getSchedule();
-      this.schedule = data.filter((schedule: any) => schedule.is_live == true);
-      console.log(this.schedule);
+      this.schedule = data
+        .filter((item: any) => item.is_live == true)
+        .sort((a: any, b: any) => {
+          this.weekdayOrder[a.day] - this.weekdayOrder[b.day];
+        });
+      console.log('Sorted Schedule:', this.schedule);
       this.loading = false;
     } catch (error) {
       console.error('Error fetching schedule:', error);
@@ -78,13 +92,16 @@ export class SchedulePage implements OnInit {
   async getTocSchedule() {
     try {
       const data = await this.scheduleService.getTocSettings();
-      this.tocSchedule = data.filter(
-        (schedule: any) => schedule.is_live == true
-      );
-      console.log(this.tocSchedule);
+      this.tocSchedule = data
+        .filter((item: any) => item.is_live == true)
+        .sort(
+          (a: any, b: any) =>
+            this.weekdayOrder[a.day_date] - this.weekdayOrder[b.day_date]
+        );
+      console.log('Sorted TOC Schedule:', this.tocSchedule);
       this.loading = false;
     } catch (error) {
-      console.error('Error fetching schedule:', error);
+      console.error('Error fetching TOC schedule:', error);
     }
   }
 }
