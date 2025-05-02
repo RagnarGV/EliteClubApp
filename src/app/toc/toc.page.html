@@ -13,86 +13,18 @@
   <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
-  <!--  <div class="form-container fade-in">
-    <h2 class="page-title text-center golden-text">Join The TOC Waitlist</h2>
-    <form [formGroup]="waitlistForm" (ngSubmit)="onSubmit()">
-      <ion-item class="input-item border-bottom border-warning">
-        <ion-label position="floating">First Name</ion-label>
-        <ion-input formControlName="firstName" type="text"></ion-input>
-      </ion-item>
-      <ion-item class="input-item border-bottom border-warning">
-        <ion-label position="floating">Last Initial</ion-label>
-        <ion-input
-          formControlName="lastInitial"
-          type="text"
-          maxlength="1"
-        ></ion-input>
-      </ion-item>
-      <ion-item class="input-item border-bottom border-warning">
-        <ion-label position="floating">Phone Number</ion-label>
-        <ion-input
-          (ngModelChange)="phoneNumberChanged()"
-          formControlName="phone"
-          type="text"
-        ></ion-input>
-      </ion-item>
-
-      <h4 class="golden-text">Please choose a game.</h4>
-
-      <ion-radio-group formControlName="gameType">
-        <ion-list class="input-item">
-          <ion-item
-            class="input-item-check border-bottom border-warning"
-            *ngFor="let game of todayGames"
-          >
-            <ion-radio [value]="game.gameType">
-              <ion-label>{{ game.gameType }}</ion-label>
-            </ion-radio>
-          </ion-item>
-        </ion-list>
-      </ion-radio-group>
-
-      <ion-item class="input-item border-bottom border-warning">
-        <ion-checkbox justify="space-between" formControlName="smsUpdates"
-          >Send me SMS updates</ion-checkbox
-        >
-      </ion-item>
-      <ion-button expand="block" type="submit" [disabled]="waitlistForm.invalid"
-        >Join List</ion-button
-      >
-    </form>
-  </div>
-  <div *ngIf="firstUserModal" class="modal-content-otp ion-padding fade-in">
-    <ion-card class="modal-otp ion-padding animate-glow">
-      <h2>Phone Authentication</h2>
-      <div *ngIf="!verificationSent">
-        <ion-item class="input-item">
-          <ion-input
-            [(ngModel)]="phoneNumber"
-            placeholder="+1XXXXXXXXXX"
-            disabled="true"
-          ></ion-input>
-        </ion-item>
-        <ion-button expand="block" class="glowing-btn" (click)="sendOTP()"
-          >Send OTP</ion-button
-        >
-      </div>
-      <div *ngIf="verificationSent">
-        <h3>Enter OTP</h3>
-        <ion-item class="input-item">
-          <ion-input [(ngModel)]="otpCode" placeholder="Enter OTP"></ion-input>
-        </ion-item>
-        <ion-button expand="block" class="glowing-btn" (click)="verifyOTP()"
-          >Verify</ion-button
-        >
-      </div>
-      <p *ngIf="authMessage" class="error-text">{{ authMessage }}</p>
-    </ion-card>
-  </div> -->
+  <ion-loading
+    class="custom-loading"
+    [isOpen]="loading"
+    message="Loading..."
+  ></ion-loading>
 
   <div *ngFor="let days of allTocDays" class="waitlist-container fade-in">
     <h3 class="golden-text">{{days.day_date}}</h3>
-    <p class="info-text">✔️ indicates the player is checked in at the club</p>
+    <p class="info-text">
+      <ion-icon name="checkmark"></ion-icon> indicates the player is checked in
+      at the club
+    </p>
 
     <ion-list class="waitlist-list" *ngIf="waitlist.length > 0; else noData">
       <ng-container *ngFor="let entry of waitlist">
@@ -104,11 +36,11 @@
             {{ entry.firstName }} {{ entry.lastInitial }}
             <span
               style="float: right"
-              class="checked-in"
               *ngIf="entry.checkedIn == true"
+              class="checked-in"
             >
-              ✔️</span
-            >
+              <ion-icon name="checkmark"></ion-icon
+            ></span>
           </ion-label>
         </ion-item>
       </ng-container>

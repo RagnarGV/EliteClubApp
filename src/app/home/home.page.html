@@ -8,6 +8,11 @@
   <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
+  <ion-loading
+    class="custom-loading"
+    [isOpen]="loading"
+    message="Loading..."
+  ></ion-loading>
   <h1 class="title animate-fade-in">WELCOME TO CLUB ELITE</h1>
   <div class="text-center">
     <img
@@ -102,44 +107,52 @@
 
   <ion-card class="schedule-card animate-fade-in animate-slide-up ion-padding">
     <ion-card-content>
-      <ng-container *ngFor="let day of schedule">
-        <div *ngIf="day.is_live == true else noSchedule">
+      <ng-container *ngIf="isClubOpen === true else noSchedule">
+        <ng-container *ngFor="let day of schedule">
           <ion-card-header>
             <ion-card-title>Today's Schedule</ion-card-title>
           </ion-card-header>
-          <h2 class="text-center mb-3">{{ day.time }}</h2>
+          <h2 class="text-center mb-3">{{ day.day }}</h2>
           <ng-container *ngFor="let game of day.games">
             <div class="row">
               <div class="col">
                 <h2><strong>{{ game.gameType }}</strong></h2>
               </div>
               <div class="col">
-                <h2 class="float-end"><p>{{ game.limit }}</p></h2>
+                <h2 class="float-end"><strong>{{ game.limit }}</strong></h2>
               </div>
             </div>
           </ng-container>
-          <p class="text-center mt-3">{{ day.description }}</p>
+          <p class="text-center mt-3">{{ day.time }}</p>
           <ion-button
             expand="block"
-            class="glowing-btn my-4"
+            class="glowing-btn m-3"
             href="/tabs/waitlist"
           >
-            Join List
+            Join Cash Game Waitlist
           </ion-button>
-          <ion-button expand="block" class="glowing-btn" href="/tabs/toc">
+          <!-- <ion-button expand="block" class="glowing-btn m-3" href="/tabs/toc">
             TOC waitlist
-          </ion-button>
-        </div>
-        <ng-template #noSchedule>
-          <ion-card-title class="text-center"
-            >We are currrently closed</ion-card-title
+          </ion-button> -->
+          <ion-button
+            *ngIf="toc_is_live === true"
+            expand="block"
+            class="glowing-btn m-3"
+            href="/tabs/pre-reg-toc"
           >
-        </ng-template>
+            Pre-registration for TOC
+          </ion-button>
+        </ng-container>
       </ng-container>
+      <ng-template #noSchedule>
+        <ion-card-title class="text-center"
+          >We are currrently closed</ion-card-title
+        >
+      </ng-template>
     </ion-card-content>
   </ion-card>
 
-  <div *ngFor="let game of todayGames" class="ion-padding fade-in">
+  <!-- <div *ngFor="let game of todayGames" class="ion-padding fade-in">
     <h3 class="golden-text">{{game.gameType}}</h3>
     <p class="info-text">
       <ion-icon name="checkmark"></ion-icon> indicates the player is checked in
@@ -168,5 +181,5 @@
         No players on the waitlist yet. Be the first to join!
       </p>
     </ng-template>
-  </div>
+  </div> -->
 </ion-content>

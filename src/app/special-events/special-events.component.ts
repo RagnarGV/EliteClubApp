@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ApiService } from '../services/api.service';
 import {
@@ -35,17 +35,22 @@ import { Browser } from '@capacitor/browser';
     IonRefresherContent,
     IonImg,
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class SpecialEventsComponent implements OnInit {
   specialEvents: any[] = [];
+  loading: boolean = true;
   constructor(private apiService: ApiService) {}
 
   ngOnInit() {
+    this.loading = true;
     this.getSpecialEvents();
   }
   handleRefresh(event: any) {
+    this.loading = true;
     this.apiService.getSpecialEvents().then((events) => {
       this.specialEvents = events.filter((event: any) => event.is_live == true);
+      this.loading = false;
       event.target.complete();
     });
   }
@@ -53,6 +58,7 @@ export class SpecialEventsComponent implements OnInit {
   getSpecialEvents() {
     this.apiService.getSpecialEvents().then((events) => {
       this.specialEvents = events.filter((event: any) => event.is_live == true);
+      this.loading = false;
     });
   }
 

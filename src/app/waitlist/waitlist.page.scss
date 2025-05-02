@@ -17,7 +17,11 @@ ion-button {
 .golden-text {
   color: goldenrod;
 }
-
+.closed-card {
+  background: #222;
+  color: white;
+  border-radius: 15px;
+}
 .form-container,
 .waitlist-container {
   padding: 20px;

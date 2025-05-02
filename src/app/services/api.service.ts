@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-
+import { Network } from '@capacitor/network';
 import axios from 'axios';
 import { ToastController } from '@ionic/angular/standalone';
 export interface Game {
@@ -13,7 +13,7 @@ export enum WeekDays {
   Tuesday = 'Tuesday',
   Wednesday = 'Wednesday',
   Thursday = 'Thursday',
-  Firday = 'Friday',
+  Friday = 'Friday',
   Saturday = 'Saturday',
 }
 
@@ -39,8 +39,36 @@ export interface Waitlist {
 export class ApiService {
   private apiUrl = 'https://clubelite.ca/apis';
   //private apiUrl = 'http://localhost:3000/api';
+  isConnected = true;
 
-  constructor(private toastController: ToastController) {}
+  constructor(private toastController: ToastController) {
+    this.initializeNetworkListener();
+  }
+
+  async initializeNetworkListener() {
+    const status = await Network.getStatus();
+    this.isConnected = status.connected;
+
+    Network.addListener('networkStatusChange', async (status) => {
+      if (!status.connected && this.isConnected) {
+        this.isConnected = false;
+        this.showToast('No Internet', 'danger');
+      } else if (status.connected && !this.isConnected) {
+        this.isConnected = true;
+        this.showToast('Back Online', 'success');
+      }
+    });
+  }
+
+  private async showToast(message: string, color: string) {
+    const toast = await this.toastController.create({
+      message,
+      duration: 3000,
+      color,
+      position: 'bottom',
+    });
+    await toast.present();
+  }
 
   async getSchedule() {
     const response = await axios.get(this.apiUrl + '/schedule');

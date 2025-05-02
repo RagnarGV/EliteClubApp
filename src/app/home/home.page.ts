@@ -13,10 +13,6 @@ import {
   IonRefresher,
   IonRefresherContent,
   IonButton,
-  IonList,
-  IonLabel,
-  IonItem,
-  IonIcon,
   IonImg,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
@@ -25,7 +21,6 @@ import { ApiService } from '../services/api.service';
 import { checkmark } from 'ionicons/icons';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { register } from 'swiper/element/bundle';
-
 import { TabsPage } from '../tabs/tabs.page';
 import Swiper from 'swiper';
 
@@ -48,15 +43,11 @@ register();
     IonRefresher,
     IonRefresherContent,
     IonButton,
-    IonList,
-    IonLabel,
-    IonItem,
-    IonIcon,
     IonImg,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class HomePage implements OnInit, OnDestroy {
+export class HomePage implements OnInit {
   schedule: any[] = [];
   toc_is_live: boolean = false;
   toc: any;
@@ -66,7 +57,8 @@ export class HomePage implements OnInit, OnDestroy {
   waitlist: any;
   gallery: any;
   swiperInstance: Swiper | null = null;
-  autoplay: boolean = false;
+  isClubOpen: boolean = false;
+  isConnected: boolean = true;
   constructor(
     private scheduleService: ApiService,
     private route: Router,
@@ -75,20 +67,21 @@ export class HomePage implements OnInit, OnDestroy {
     addIcons({ checkmark });
   }
 
-  ngOnInit() {
-    this.loading = true;
+  async ngOnInit() {
     this.getSchedule();
     this.getTocSettings();
     this.getTodayGames();
     this.getWaitlist();
     this.getGallery();
-    this.autoplay = true;
   }
 
-  ngOnDestroy(): void {
-    this.autoplay = false;
+  async handleRefresh(event: any) {
+    try {
+      this.getSchedule();
+    } finally {
+      event.target.complete();
+    }
   }
-
   disableTabSwipe() {
     console.log('trigger disable');
     this.Tabs.disableTabSwipe();
@@ -106,8 +99,8 @@ export class HomePage implements OnInit, OnDestroy {
                 day.day ===
                 new Date().toLocaleDateString('en-US', { weekday: 'long' })
               ) {
-                console.log(game);
                 this.todayGames.push(game);
+                this.isClubOpen = true;
               }
             });
           }
@@ -134,12 +127,15 @@ export class HomePage implements OnInit, OnDestroy {
     this.scheduleService.getTocSettings().then((toc) => {
       this.toc = toc;
       toc.forEach((element: any) => {
-        if (element.is_live == true) {
+        if (
+          element.day_date === this.getCurrentDay() &&
+          element.is_live == true
+        ) {
           this.toc_count++;
+          this.toc_is_live = true;
         }
       });
 
-      this.toc_is_live = toc?.[0]?.is_live == 1;
       console.log(this.toc_count);
     });
   }
@@ -151,14 +147,6 @@ export class HomePage implements OnInit, OnDestroy {
 
       this.loading = false;
     });
-  }
-
-  async handleRefresh(event: any) {
-    try {
-      this.getSchedule();
-    } finally {
-      event.target.complete();
-    }
   }
 
   getCurrentDay(): string {

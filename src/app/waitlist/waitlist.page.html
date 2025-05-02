@@ -8,7 +8,11 @@
   <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
-
+  <ion-loading
+    class="custom-loading"
+    [isOpen]="loading"
+    message="Loading..."
+  ></ion-loading>
   <ng-container *ngIf="isCLubOpen === true else clubClosed">
     <div class="form-container fade-in">
       <h2 class="page-title text-center golden-text">Join The Waitlist</h2>
@@ -34,7 +38,7 @@
             type="text"
           ></ion-input>
         </ion-item>
-        <ion-item class="input-item border-bottom border-warning">
+        <!-- <ion-item class="input-item border-bottom border-warning">
           <ion-select
             label="Game Type"
             labelPlacement="floating"
@@ -68,7 +72,7 @@
         <p class="info-text">
           Note: To see Tournament of Champoins waitlist select Tournament of
           Champoins in Game Type
-        </p>
+        </p> -->
         <h4 class="golden-text">Please choose a game.</h4>
         <ion-radio-group *ngIf="!tocGame" formControlName="gameType">
           <ion-list class="input-item">
@@ -116,7 +120,7 @@
   </ng-container>
   <ng-template #clubClosed>
     <ion-card
-      class="schedule-card my-5 animate-fade-in animate-slide-up ion-padding"
+      class="closed-card my-5 animate-fade-in animate-slide-up ion-padding"
     >
       <ion-card-content>
         <ion-card-title class="text-center"
@@ -149,7 +153,7 @@
           >Verify</ion-button
         >
       </div>
-      <p *ngIf="authMessage" class="error-text">{{ authMessage }}</p>
+      <p *ngIf="authMessage" class="text-gold text-center">{{ authMessage }}</p>
     </ion-card>
   </div>
 

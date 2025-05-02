@@ -81,7 +81,7 @@ export class TabsPage implements AfterViewInit {
   }
 
   swipeToTab(direction: 'prev' | 'next') {
-    const tabs = ['home', 'waitlist', 'schedule', 'special-events', 'f&q'];
+    const tabs = ['home', 'schedule', 'waitlist', 'special-events', 'f&q'];
     const currentTab = this.tabs.getSelected();
     const currentIndex = tabs.indexOf(currentTab!);
 

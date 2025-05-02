@@ -5,9 +5,31 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">FANDQ</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <ion-loading
+    class="custom-loading"
+    [isOpen]="loading"
+    message="Loading..."
+  ></ion-loading>
+  <ion-accordion-group class="ion-padding">
+    <ion-accordion class="accordion" value="first accordion">
+      <ion-item slot="header" color="light">
+        <ion-label class="text-gold">When does the club opens?</ion-label>
+      </ion-item>
+      <div class="ion-padding" slot="content">
+        Check the club schedule to for the timings of current week.
+      </div>
+    </ion-accordion>
+    <ion-accordion class="accordion" value="second">
+      <ion-item slot="header" color="light">
+        <ion-label class="text-gold"
+          >How much time do I have before I get removed from
+          waitlist?</ion-label
+        >
+      </ion-item>
+      <div class="ion-padding" slot="content">
+        You have 1 hour to check-in the club before you will get removed from
+        the list.
+      </div>
+    </ion-accordion>
+  </ion-accordion-group>
 </ion-content>
