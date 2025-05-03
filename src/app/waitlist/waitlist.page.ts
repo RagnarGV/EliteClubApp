@@ -102,20 +102,75 @@ export class WaitlistPage implements OnInit {
     this.loading = true;
     this.getWaitlist();
     this.getTodayGames();
+    // this.waitlistService.getSchedule().then((response) => {
+    //   response.forEach((day: any) => {
+    //     day.games.forEach(() => {
+    //       this.loading = false;
+    //       if (
+    //         day.day ===
+    //           new Date().toLocaleDateString('en-US', { weekday: 'long' }) &&
+    //         day.is_live == true
+    //       ) {
+    //         this.isCLubOpen = true;
+    //       }
+    //     });
+    //   });
+    // });
     this.waitlistService.getSchedule().then((response) => {
       response.forEach((day: any) => {
-        day.games.forEach(() => {
-          this.loading = false;
-          if (
-            day.day ===
-              new Date().toLocaleDateString('en-US', { weekday: 'long' }) &&
-            day.is_live == true
-          ) {
-            this.isCLubOpen = true;
-          }
-        });
+        if (this.isClubLiveToday(day.day, day.time) && day.is_live == true) {
+          this.isCLubOpen = true;
+        }
       });
+      this.loading = false;
     });
+  }
+
+  isClubLiveToday(dayName: string, timeRange: string): boolean {
+    const now = new Date();
+
+    const dayIndexMap: { [key: string]: number } = {
+      Sunday: 0,
+      Monday: 1,
+      Tuesday: 2,
+      Wednesday: 3,
+      Thursday: 4,
+      Friday: 5,
+      Saturday: 6,
+    };
+
+    const todayIndex = now.getDay(); // 0 = Sunday, 1 = Monday, ...
+    const currentDay = dayIndexMap[dayName];
+
+    // Time range parsing
+    const [startStr, endStr] = timeRange.split('-').map((s) => s.trim());
+
+    const to24Hour = (time: string): Date => {
+      const date = new Date(now);
+      let [timePart, modifier] = time.split(/(am|pm)/i);
+      let [hours, minutes] = timePart.trim().split(':').map(Number);
+
+      if (modifier.toLowerCase() === 'pm' && hours < 12) hours += 12;
+      if (modifier.toLowerCase() === 'am' && hours === 12) hours = 0;
+
+      date.setHours(hours, minutes, 0, 0);
+      return date;
+    };
+
+    let startTime = to24Hour(startStr);
+    let endTime = to24Hour(endStr);
+
+    // If end time is earlier, it means it goes to next day (e.g., 7:00 PM - 4:00 AM)
+    if (endTime <= startTime) {
+      endTime.setDate(endTime.getDate() + 1);
+    }
+
+    // Adjust start and end dates to match the intended weekday
+    const dayDiff = currentDay - startTime.getDay();
+    startTime.setDate(startTime.getDate() + dayDiff);
+    endTime.setDate(endTime.getDate() + dayDiff);
+
+    return now >= startTime && now <= endTime;
   }
 
   // onChangeGame() {
