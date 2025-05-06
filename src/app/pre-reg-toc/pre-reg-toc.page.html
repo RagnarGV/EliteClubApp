@@ -42,6 +42,9 @@
             formControlName="phone"
             type="text"
           ></ion-input>
+          <p class="text-danger" *ngIf="waitlistForm.controls['phone'].invalid">
+            Please enter the number in this format (+1XXXXXXXXXX)
+          </p>
         </ion-item>
         <!-- <ion-item class="input-item border-bottom border-warning">
           <ion-select
