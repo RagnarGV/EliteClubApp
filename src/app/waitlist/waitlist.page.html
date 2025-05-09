@@ -13,7 +13,9 @@
     [isOpen]="loading"
     message="Loading..."
   ></ion-loading>
-  <ng-container *ngIf="isCLubOpen === true else clubClosed">
+  <ng-container
+    *ngIf="isCLubOpen === true && isWaitlistOpen === true else clubClosed"
+  >
     <div class="form-container fade-in">
       <h2 class="page-title text-center golden-text">Join The Waitlist</h2>
       <form [formGroup]="waitlistForm" (ngSubmit)="onSubmit()">
@@ -120,6 +122,74 @@
         </ion-button>
       </form>
     </div>
+
+    <div *ngIf="firstUserModal" class="modal-content-otp ion-padding fade-in">
+      <ion-card class="modal-otp ion-padding animate-glow">
+        <h2>Phone Authentication</h2>
+        <div *ngIf="!verificationSent">
+          <ion-item class="input-item">
+            <ion-input
+              [(ngModel)]="phoneNumber"
+              placeholder="+1XXXXXXXXXX"
+              disabled="true"
+            ></ion-input>
+          </ion-item>
+          <ion-button expand="block" class="glowing-btn" (click)="sendOTP()"
+            >Send OTP</ion-button
+          >
+        </div>
+        <div *ngIf="verificationSent">
+          <h3>Enter OTP</h3>
+          <ion-item class="input-item">
+            <ion-input
+              [(ngModel)]="otpCode"
+              placeholder="Enter OTP"
+            ></ion-input>
+          </ion-item>
+          <ion-button expand="block" class="glowing-btn" (click)="verifyOTP()"
+            >Verify</ion-button
+          >
+        </div>
+        <p *ngIf="authMessage" class="text-gold text-center">
+          {{ authMessage }}
+        </p>
+      </ion-card>
+    </div>
+
+    <div *ngFor="let game of todayGames" class="waitlist-container fade-in">
+      <h3 class="golden-text">{{game.gameType}}</h3>
+      <p class="info-text">
+        <ion-icon name="checkmark"></ion-icon> indicates the player is checked
+        in at the club
+      </p>
+
+      <ion-list class="waitlist-list" *ngIf="waitlist.length > 0">
+        <ng-container *ngFor="let entry of waitlist">
+          <ng-container *ngIf="entry.gameType == game.gameType; else noData">
+            <ion-item
+              class="waitlist-item rounded-bottom border-bottom border-warning"
+            >
+              <ion-label>
+                {{ entry.firstName }} {{ entry.lastInitial }}
+                <span
+                  style="float: right"
+                  *ngIf="entry.checkedIn == true"
+                  class="checked-in"
+                >
+                  <ion-icon name="checkmark"></ion-icon
+                ></span>
+              </ion-label>
+            </ion-item>
+          </ng-container>
+        </ng-container>
+      </ion-list>
+
+      <ng-template #noData>
+        <p class="info-text">
+          No players on the waitlist yet. Be the first to join!
+        </p>
+      </ng-template>
+    </div>
   </ng-container>
   <ng-template #clubClosed>
     <ion-card
@@ -132,66 +202,16 @@
       </ion-card-content>
     </ion-card>
   </ng-template>
-  <div *ngIf="firstUserModal" class="modal-content-otp ion-padding fade-in">
-    <ion-card class="modal-otp ion-padding animate-glow">
-      <h2>Phone Authentication</h2>
-      <div *ngIf="!verificationSent">
-        <ion-item class="input-item">
-          <ion-input
-            [(ngModel)]="phoneNumber"
-            placeholder="+1XXXXXXXXXX"
-            disabled="true"
-          ></ion-input>
-        </ion-item>
-        <ion-button expand="block" class="glowing-btn" (click)="sendOTP()"
-          >Send OTP</ion-button
+
+  <ng-container *ngIf="startTime && isWaitlistOpen === false">
+    <ion-card
+      class="closed-card my-5 animate-fade-in animate-slide-up ion-padding"
+    >
+      <ion-card-content>
+        <ion-card-title class="text-center"
+          >Waitlist will be open at {{startTime}}</ion-card-title
         >
-      </div>
-      <div *ngIf="verificationSent">
-        <h3>Enter OTP</h3>
-        <ion-item class="input-item">
-          <ion-input [(ngModel)]="otpCode" placeholder="Enter OTP"></ion-input>
-        </ion-item>
-        <ion-button expand="block" class="glowing-btn" (click)="verifyOTP()"
-          >Verify</ion-button
-        >
-      </div>
-      <p *ngIf="authMessage" class="text-gold text-center">{{ authMessage }}</p>
+      </ion-card-content>
     </ion-card>
-  </div>
-
-  <div *ngFor="let game of todayGames" class="waitlist-container fade-in">
-    <h3 class="golden-text">{{game.gameType}}</h3>
-    <p class="info-text">
-      <ion-icon name="checkmark"></ion-icon> indicates the player is checked in
-      at the club
-    </p>
-
-    <ion-list class="waitlist-list" *ngIf="waitlist.length > 0">
-      <ng-container *ngFor="let entry of waitlist">
-        <ng-container *ngIf="entry.gameType == game.gameType; else noData">
-          <ion-item
-            class="waitlist-item rounded-bottom border-bottom border-warning"
-          >
-            <ion-label>
-              {{ entry.firstName }} {{ entry.lastInitial }}
-              <span
-                style="float: right"
-                *ngIf="entry.checkedIn == true"
-                class="checked-in"
-              >
-                <ion-icon name="checkmark"></ion-icon
-              ></span>
-            </ion-label>
-          </ion-item>
-        </ng-container>
-      </ng-container>
-    </ion-list>
-
-    <ng-template #noData>
-      <p class="info-text">
-        No players on the waitlist yet. Be the first to join!
-      </p>
-    </ng-template>
-  </div>
+  </ng-container>
 </ion-content>

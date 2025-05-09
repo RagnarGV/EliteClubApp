@@ -84,6 +84,8 @@ export class PreRegTOCPage implements OnInit {
   tocSettingsId: any;
   isCLubOpen: boolean = false;
   loading: boolean = true;
+  isWaitlistOpen: boolean = false;
+  startTime: any;
   // phoneNumberPrefix: string = '+1';
 
   constructor(
@@ -113,50 +115,48 @@ export class PreRegTOCPage implements OnInit {
   ngOnInit(): void {
     this.loading = true;
     this.getTodayGames();
+
+    const today = new Date();
+    const currentTime = today.getTime(); // in ms
+
     this.waitlistService.getTocSettings().then((response) => {
       response.forEach((day: any) => {
-        if (
-          day.day_date ===
-            new Date().toLocaleDateString('en-US', { weekday: 'long' }) &&
-          day.is_live == true
-        ) {
+        const dayName = today.toLocaleDateString('en-US', { weekday: 'long' });
+
+        if (day.day_date === dayName && day.is_live == true) {
+          const clubStartTimeStr = day.time; // e.g., "7:00 pm"
           this.isCLubOpen = true;
-          this.loading = false;
+          // Parse time string to Date
+          const clubStartDateTime = new Date();
+          const [time, modifier] = clubStartTimeStr.split(' ');
+          let [hours, minutes] = time.split(':').map(Number);
+          if (modifier.toLowerCase() === 'pm' && hours !== 12) hours += 12;
+          if (modifier.toLowerCase() === 'am' && hours === 12) hours = 0;
+          clubStartDateTime.setHours(hours - 2, minutes, 0, 0); // 2 hours before
+          this.startTime = this.getStartTime(clubStartTimeStr);
+          // Compare
+
+          if (currentTime >= clubStartDateTime.getTime()) {
+            this.isWaitlistOpen = true;
+          }
         }
+        this.loading = false;
       });
     });
+
     this.getTocDays();
+  }
+
+  getStartTime(schedule: string) {
+    let [timePart, modifier] = schedule.split(/(am|pm)/i);
+    let [hours, minutes] = timePart.split(':');
+    console.log(hours);
+    return Number(hours) - 2 + ':' + minutes + ' ' + modifier;
   }
 
   goBack() {
     this.navCtrl.back();
   }
-
-  // onChangeGame() {
-  //   this.todayGames = [];
-  //   this.waitlist = [];
-  //   if (this.waitlistForm.controls['game'].value === 'toc') {
-  //     console.log(this.waitlistForm.controls['game'].value);
-  //     this.getTocDays();
-  //   } else if (this.waitlistForm.controls['game'].value === 'cash') {
-  //     this.tocSettings = '';
-  //     this.waitlistForm.controls['toc_day'].reset;
-
-  //     this.getTodayGames();
-  //   }
-  // }
-
-  // onTocDaySelect() {
-  //   this.todayGames = [];
-  //   this.waitlist = [];
-  //   console.log(this.waitlistForm.controls['game'].value);
-  //   this.waitlistService
-  //     .getTocSettingsById(this.waitlistForm.controls['toc_day'].value)
-  //     .then((data: any) => {
-  //       this.todayGames.push(data);
-  //     });
-  //   this.getTocWaitlist(this.waitlistForm.controls['toc_day'].value);
-  // }
 
   async handleRefresh(event: any) {
     try {

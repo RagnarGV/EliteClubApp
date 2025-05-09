@@ -133,6 +133,7 @@ export class HomePage implements OnInit {
         ) {
           this.toc_count++;
           this.toc_is_live = true;
+          this.isClubOpen = true;
         }
       });
 

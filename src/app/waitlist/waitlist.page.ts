@@ -78,6 +78,9 @@ export class WaitlistPage implements OnInit {
   tocSettingsId: any;
   isCLubOpen: boolean = false;
   loading: boolean = true;
+  isWaitlistOpen: boolean = false;
+  todaySchedule: any;
+  startTime: any;
 
   constructor(private fb: FormBuilder, private waitlistService: ApiService) {
     this.waitlistForm = this.fb.group({
@@ -102,32 +105,38 @@ export class WaitlistPage implements OnInit {
     this.loading = true;
     this.getWaitlist();
     this.getTodayGames();
-    // this.waitlistService.getSchedule().then((response) => {
-    //   response.forEach((day: any) => {
-    //     day.games.forEach(() => {
-    //       this.loading = false;
-    //       if (
-    //         day.day ===
-    //           new Date().toLocaleDateString('en-US', { weekday: 'long' }) &&
-    //         day.is_live == true
-    //       ) {
-    //         this.isCLubOpen = true;
-    //       }
-    //     });
-    //   });
-    // });
+
     this.waitlistService.getSchedule().then((response) => {
       response.forEach((day: any) => {
-        if (this.isClubLiveToday(day.day, day.time) && day.is_live == true) {
+        if (
+          day.is_live == true &&
+          day.day ===
+            new Date().toLocaleDateString('en-US', { weekday: 'long' })
+        ) {
+          this.todaySchedule = day;
+          console.log(this.todaySchedule);
+          this.startTime = this.getStartTime(this.todaySchedule.time);
           this.isCLubOpen = true;
+          if (this.isClubLiveToday(day.day, day.time)) {
+            this.isWaitlistOpen = true;
+          }
         }
       });
       this.loading = false;
     });
   }
 
+  getStartTime(schedule: string) {
+    const [startStr, endStr] = schedule.split('-').map((s) => s.trim());
+    let [timePart, modifier] = startStr.split(/(am|pm)/i);
+    let [hours, minutes] = timePart.split(':');
+    console.log(minutes);
+    return Number(hours) - 1 + ':' + minutes + ' ' + modifier;
+  }
+
   isClubLiveToday(dayName: string, timeRange: string): boolean {
     const now = new Date();
+    const oneHourLater = new Date(now.getTime() + 60 * 60 * 1000);
 
     const dayIndexMap: { [key: string]: number } = {
       Sunday: 0,
@@ -170,34 +179,8 @@ export class WaitlistPage implements OnInit {
     startTime.setDate(startTime.getDate() + dayDiff);
     endTime.setDate(endTime.getDate() + dayDiff);
 
-    return now >= startTime && now <= endTime;
+    return oneHourLater >= startTime && oneHourLater <= endTime;
   }
-
-  // onChangeGame() {
-  //   this.todayGames = [];
-  //   this.waitlist = [];
-  //   if (this.waitlistForm.controls['game'].value === 'toc') {
-  //     console.log(this.waitlistForm.controls['game'].value);
-  //     this.getTocDays();
-  //   } else if (this.waitlistForm.controls['game'].value === 'cash') {
-  //     this.tocSettings = '';
-  //     this.waitlistForm.controls['toc_day'].reset;
-  //     this.getWaitlist();
-  //     this.getTodayGames();
-  //   }
-  // }
-
-  // onTocDaySelect() {
-  //   this.todayGames = [];
-  //   this.waitlist = [];
-  //   console.log(this.waitlistForm.controls['game'].value);
-  //   this.waitlistService
-  //     .getTocSettingsById(this.waitlistForm.controls['toc_day'].value)
-  //     .then((data: any) => {
-  //       this.todayGames.push(data);
-  //     });
-  //   this.getTocWaitlist(this.waitlistForm.controls['toc_day'].value);
-  // }
 
   async handleRefresh(event: any) {
     try {
