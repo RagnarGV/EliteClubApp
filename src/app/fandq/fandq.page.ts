@@ -42,9 +42,8 @@ export class FANDQPage implements OnInit {
     },
     {
       id: '2',
-      question: 'When does the Cash waitlist open?',
-      answer:
-        'The Cash waitlist usually opens 1 hour before the club’s scheduled opening time.',
+      question: 'When does the cash waitlist open?',
+      answer: 'The cash waitlist usually opens 1 hour before the club opens.',
     },
     {
       id: '3',
