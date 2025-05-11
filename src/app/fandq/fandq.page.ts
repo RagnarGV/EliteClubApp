@@ -34,6 +34,31 @@ import {
 export class FANDQPage implements OnInit {
   loading: boolean = true;
   constructor() {}
+  faqs = [
+    {
+      id: '1',
+      question: 'When does the club open?',
+      answer: 'Check the club schedule for this week’s timings.',
+    },
+    {
+      id: '2',
+      question: 'When does the Cash waitlist open?',
+      answer:
+        'The Cash waitlist usually opens 1 hour before the club’s scheduled opening time.',
+    },
+    {
+      id: '3',
+      question: 'When does the Tournament of Champions waitlist open?',
+      answer:
+        'The Tournament of Champions waitlist usually opens 2 hours before the club’s scheduled opening time.',
+    },
+    {
+      id: '4',
+      question: 'How much time do I have before I’m removed from the waitlist?',
+      answer:
+        'You have 1 hour to check in at the club before you are removed from the waitlist.',
+    },
+  ];
 
   ngOnInit() {
     this.loading = false;

@@ -129,7 +129,7 @@
     </div>
 
     <div *ngIf="firstUserModal" class="modal-content-otp ion-padding fade-in">
-      <ion-card class="modal-otp ion-padding animate-glow">
+      <!-- <ion-card class="modal-otp ion-padding animate-glow">
         <h2>Phone Authentication</h2>
         <div *ngIf="!verificationSent">
           <ion-item class="input-item">
@@ -156,7 +156,73 @@
           >
         </div>
         <p *ngIf="authMessage" class="error-text">{{ authMessage }}</p>
-      </ion-card>
+      </ion-card> -->
+      <!-- OTP Modal Template -->
+      <div class="modal-content-otp fade-in">
+        <ion-card class="modal-otp ion-padding animate-glow">
+          <ion-card-header>
+            <ion-card-title class="text-center">
+              Phone Verification</ion-card-title
+            >
+          </ion-card-header>
+
+          <ion-card-content>
+            <div *ngIf="!verificationSent">
+              <p class="text-center mb-2">
+                We’ll send a One-Time Password (OTP) to your phone number below.
+              </p>
+              <ion-item class="input-item">
+                <ion-input
+                  [(ngModel)]="phoneNumber"
+                  placeholder="+1XXXXXXXXXX"
+                  disabled="true"
+                ></ion-input>
+              </ion-item>
+              <ion-button
+                expand="block"
+                class="glowing-btn"
+                (click)="sendOTP()"
+              >
+                Send OTP
+              </ion-button>
+            </div>
+
+            <div *ngIf="verificationSent">
+              <p class="text-center mb-2">
+                Enter the 6-digit code sent to
+                <strong>{{ phoneNumber }}</strong>.
+              </p>
+              <ion-item class="input-item">
+                <ion-input
+                  [(ngModel)]="otpCode"
+                  placeholder="Enter OTP"
+                  type="tel"
+                  maxlength="6"
+                ></ion-input>
+              </ion-item>
+              <ion-button
+                expand="block"
+                class="glowing-btn"
+                (click)="verifyOTP()"
+              >
+                Verify OTP
+              </ion-button>
+              <ion-button
+                fill="clear"
+                size="small"
+                class="mt-2"
+                (click)="sendOTP()"
+              >
+                Resend OTP
+              </ion-button>
+            </div>
+
+            <p *ngIf="authMessage" class="error-text text-center mt-2">
+              {{ authMessage }}
+            </p>
+          </ion-card-content>
+        </ion-card>
+      </div>
     </div>
 
     <div *ngFor="let game of todayGames" class="waitlist-container fade-in">
@@ -196,7 +262,7 @@
     </div>
   </ng-container>
   <ng-template #clubClosed>
-    <ion-card
+    <!-- <ion-card
       class="closed-card my-5 animate-fade-in animate-slide-up ion-padding"
     >
       <ion-card-content>
@@ -204,9 +270,36 @@
           >We are currrently closed</ion-card-title
         >
       </ion-card-content>
+    </ion-card> -->
+    <ion-card
+      class="closed-card my-5 animate-fade-in animate-slide-up ion-padding"
+    >
+      <ion-card-content>
+        <ion-card-title class="text-center">
+          <ng-container *ngIf="!isWaitlistOpen && startTime">
+            ⏳ Opening Soon
+          </ng-container>
+
+          <ng-container *ngIf="!isWaitlistOpen && !startTime">
+            🚪 Closed for Today
+          </ng-container>
+        </ion-card-title>
+
+        <div class="text-center mt-2">
+          <ng-container *ngIf="!isWaitlistOpen && startTime">
+            The waitlist will open at <strong>{{ startTime }}</strong>.<br />
+            Stay tuned — we’ll be ready for you soon!
+          </ng-container>
+
+          <ng-container *ngIf="!isWaitlistOpen && !startTime">
+            We're not accepting entries today. Please check the schedule for
+            updates.
+          </ng-container>
+        </div>
+      </ion-card-content>
     </ion-card>
   </ng-template>
-  <ng-container *ngIf="startTime && isWaitlistOpen === false">
+  <!-- <ng-container *ngIf="startTime && isWaitlistOpen === false">
     <ion-card
       class="closed-card my-5 animate-fade-in animate-slide-up ion-padding"
     >
@@ -216,5 +309,5 @@
         </ion-card-title>
       </ion-card-content>
     </ion-card>
-  </ng-container>
+  </ng-container> -->
 </ion-content>

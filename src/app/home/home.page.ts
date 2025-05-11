@@ -18,7 +18,7 @@ import {
 import { addIcons } from 'ionicons';
 import { CommonModule } from '@angular/common';
 import { ApiService } from '../services/api.service';
-import { checkmark } from 'ionicons/icons';
+import { calendar, checkmark } from 'ionicons/icons';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { register } from 'swiper/element/bundle';
 import { TabsPage } from '../tabs/tabs.page';
@@ -64,7 +64,7 @@ export class HomePage implements OnInit {
     private route: Router,
     private Tabs: TabsPage
   ) {
-    addIcons({ checkmark });
+    addIcons({ checkmark, calendar });
   }
 
   async ngOnInit() {

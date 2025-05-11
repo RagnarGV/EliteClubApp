@@ -105,7 +105,7 @@
     </p>
   </div>
 
-  <ion-card class="schedule-card animate-fade-in animate-slide-up ion-padding">
+  <!-- <ion-card class="schedule-card animate-fade-in animate-slide-up ion-padding">
     <ion-card-content>
       <ng-container *ngIf="isClubOpen === true else noSchedule">
         <ng-container *ngFor="let day of schedule">
@@ -131,9 +131,7 @@
           >
             Join Cash Game Waitlist
           </ion-button>
-          <!-- <ion-button expand="block" class="glowing-btn m-3" href="/tabs/toc">
-            TOC waitlist
-          </ion-button> -->
+        
           <ion-button
             *ngIf="toc_is_live === true"
             expand="block"
@@ -148,6 +146,67 @@
         <ion-card-title class="text-center"
           >We are currrently closed</ion-card-title
         >
+      </ng-template>
+    </ion-card-content>
+  </ion-card> -->
+  <!-- ------------------ -->
+  <ion-card class="schedule-card animate-fade-in animate-slide-up ion-padding">
+    <ion-card-content>
+      <ng-container *ngIf="isClubOpen; else noSchedule">
+        <ion-card-header>
+          <ion-card-title class="text-center"
+            ><ion-icon class="align-middle" name="calendar"></ion-icon> Today's
+            Schedule</ion-card-title
+          >
+        </ion-card-header>
+
+        <ng-container *ngFor="let day of schedule">
+          <h2 class="text-center mt-2 text-gold">
+            <strong>{{ day.day }}</strong>
+          </h2>
+
+          <ng-container *ngFor="let game of day.games">
+            <div class="row py-2 border-bottom">
+              <div class="col">
+                <h3><strong>{{ game.gameType }}</strong></h3>
+              </div>
+              <div class="col text-end">
+                <h3><strong>{{ game.limit }}</strong></h3>
+              </div>
+            </div>
+          </ng-container>
+
+          <p class="text-center mt-3">
+            🕒 Starts at: <strong>{{ day.time }}</strong>
+          </p>
+
+          <ion-button
+            expand="block"
+            class="glowing-btn m-3"
+            href="/tabs/waitlist"
+          >
+            Join Cash Game Waitlist
+          </ion-button>
+
+          <ion-button
+            *ngIf="toc_is_live"
+            expand="block"
+            class="glowing-btn m-3"
+            href="/tabs/pre-reg-toc"
+          >
+            Pre-register for TOC
+          </ion-button>
+        </ng-container>
+      </ng-container>
+
+      <ng-template #noSchedule>
+        <ion-card-title class="text-center text-danger">
+          🚪 We are currently closed
+        </ion-card-title>
+        <p class="text-center mt-2">
+          There are no games scheduled for today. Please check back tomorrow or
+          follow us for updates.
+        </p>
       </ng-template>
     </ion-card-content>
   </ion-card>

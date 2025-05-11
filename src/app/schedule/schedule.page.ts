@@ -39,7 +39,7 @@ export class SchedulePage implements OnInit {
   schedule: any[] = [];
   currentDay: string;
   tocSchedule: any[] = [];
-  finalSchedule: any[] = [];
+
   loading: boolean = true;
   isConnected: boolean = true;
   constructor(private scheduleService: ApiService) {
@@ -54,6 +54,7 @@ export class SchedulePage implements OnInit {
 
     this.getSchedule();
     this.getTocSchedule();
+    console.log(this.schedule);
   }
   private weekdayOrder: { [key: string]: number } = {
     Monday: 0,
@@ -79,9 +80,10 @@ export class SchedulePage implements OnInit {
       const data = await this.scheduleService.getSchedule();
       this.schedule = data
         .filter((item: any) => item.is_live == true)
-        .sort((a: any, b: any) => {
-          this.weekdayOrder[a.day] - this.weekdayOrder[b.day];
-        });
+        .sort(
+          (a: any, b: any) =>
+            this.weekdayOrder[a.day] - this.weekdayOrder[b.day]
+        );
       console.log('Sorted Schedule:', this.schedule);
       this.loading = false;
     } catch (error) {

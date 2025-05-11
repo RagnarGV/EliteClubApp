@@ -1,6 +1,6 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>F&Q</ion-title>
+    <ion-title>FAQs</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -10,48 +10,13 @@
     [isOpen]="loading"
     message="Loading..."
   ></ion-loading>
+
   <ion-accordion-group class="ion-padding">
-    <ion-accordion class="accordion" value="1">
+    <ion-accordion *ngFor="let faq of faqs" class="accordion" [value]="faq.id">
       <ion-item slot="header" color="light">
-        <ion-label class="text-gold">When does the club opens?</ion-label>
+        <ion-label class="text-gold">{{ faq.question }}</ion-label>
       </ion-item>
-      <div class="ion-padding" slot="content">
-        Check the club schedule to for the timings of current week.
-      </div>
-    </ion-accordion>
-    <ion-accordion class="accordion" value="2">
-      <ion-item slot="header" color="light">
-        <ion-label class="text-gold"
-          >When does the cash waitlist opens?</ion-label
-        >
-      </ion-item>
-      <div class="ion-padding" slot="content">
-        Cash waitlist usually open 1 hour before the clubs scheduled opening
-        time.
-      </div>
-    </ion-accordion>
-    <ion-accordion class="accordion" value="3">
-      <ion-item slot="header" color="light">
-        <ion-label class="text-gold"
-          >When does the Tournament of Champoins waitlist opens?</ion-label
-        >
-      </ion-item>
-      <div class="ion-padding" slot="content">
-        Cash waitlist usually open 2 hour before the clubs scheduled opening
-        time.
-      </div>
-    </ion-accordion>
-    <ion-accordion class="accordion" value="4">
-      <ion-item slot="header" color="light">
-        <ion-label class="text-gold"
-          >How much time do I have before I get removed from
-          waitlist?</ion-label
-        >
-      </ion-item>
-      <div class="ion-padding" slot="content">
-        You have 1 hour to check-in the club before you will get removed from
-        the list.
-      </div>
+      <div class="ion-padding" slot="content">{{ faq.answer }}</div>
     </ion-accordion>
   </ion-accordion-group>
 </ion-content>

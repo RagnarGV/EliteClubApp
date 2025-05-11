@@ -171,6 +171,9 @@ export class PreRegTOCPage implements OnInit {
       this.authMessage = '';
       this.todayGames = [];
       this.waitlist = [];
+      this.isCLubOpen = false;
+      this.isWaitlistOpen = false;
+      this.startTime = '';
       this.ngOnInit();
     } finally {
       event.target.complete();

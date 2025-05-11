@@ -196,14 +196,41 @@
       class="closed-card my-5 animate-fade-in animate-slide-up ion-padding"
     >
       <ion-card-content>
+        <ion-card-title class="text-center">
+          <ng-container *ngIf="!isWaitlistOpen && startTime">
+            ⏳ Opening Soon
+          </ng-container>
+
+          <ng-container *ngIf="!isWaitlistOpen && !startTime">
+            🚪 Closed for Today
+          </ng-container>
+        </ion-card-title>
+
+        <div class="text-center mt-2">
+          <ng-container *ngIf="!isWaitlistOpen && startTime">
+            The waitlist will open at <strong>{{ startTime }}</strong>.<br />
+            Stay tuned — we’ll be ready for you soon!
+          </ng-container>
+
+          <ng-container *ngIf="!isWaitlistOpen && !startTime">
+            We're not accepting entries today. Please check the schedule for
+            updates.
+          </ng-container>
+        </div>
+      </ion-card-content>
+    </ion-card>
+    <!-- <ion-card
+      class="closed-card my-5 animate-fade-in animate-slide-up ion-padding"
+    >
+      <ion-card-content>
         <ion-card-title class="text-center"
           >We are currrently closed</ion-card-title
         >
       </ion-card-content>
-    </ion-card>
+    </ion-card> -->
   </ng-template>
 
-  <ng-container *ngIf="startTime && isWaitlistOpen === false">
+  <!-- <ng-container *ngIf="startTime && isWaitlistOpen === false">
     <ion-card
       class="closed-card my-5 animate-fade-in animate-slide-up ion-padding"
     >
@@ -213,5 +240,5 @@
         >
       </ion-card-content>
     </ion-card>
-  </ng-container>
+  </ng-container> -->
 </ion-content>
