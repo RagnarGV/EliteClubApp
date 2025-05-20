@@ -124,20 +124,30 @@ export class PreRegTOCPage implements OnInit {
         const dayName = today.toLocaleDateString('en-US', { weekday: 'long' });
 
         if (day.day_date === dayName && day.is_live == true) {
-          const clubStartTimeStr = day.time; // e.g., "7:00 pm"
+          const clubStartTimeStr = day.time;
+          // e.g., "7:00 pm"
           this.isCLubOpen = true;
           // Parse time string to Date
           const clubStartDateTime = new Date();
+          const preRegEndTime = new Date();
           const [time, modifier] = clubStartTimeStr.split(' ');
           let [hours, minutes] = time.split(':').map(Number);
           if (modifier.toLowerCase() === 'pm' && hours !== 12) hours += 12;
           if (modifier.toLowerCase() === 'am' && hours === 12) hours = 0;
           clubStartDateTime.setHours(hours - 2, minutes, 0, 0); // 2 hours before
+          preRegEndTime.setHours(hours + 2, minutes, 0, 0); // 2 hours after
+
           this.startTime = this.getStartTime(clubStartTimeStr);
+
           // Compare
 
-          if (currentTime >= clubStartDateTime.getTime()) {
+          if (
+            currentTime >= clubStartDateTime.getTime() &&
+            currentTime <= preRegEndTime.getTime()
+          ) {
             this.isWaitlistOpen = true;
+          } else if (currentTime > preRegEndTime.getTime()) {
+            this.startTime = undefined;
           }
         }
         this.loading = false;

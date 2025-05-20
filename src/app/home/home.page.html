@@ -39,65 +39,7 @@
         ><ion-img [src]="pics.image" alt=""
       /></swiper-slide>
     </swiper-container>
-    <!-- <div
-      id="carouselExampleControls"
-      class="carousel slide"
-      data-bs-ride="carousel"
-    >
-      <div
-        id="carouselExampleFade"
-        class="carousel slide swiper-container carousel-fade"
-      >
-        <div class="carousel-inner">
-          <div
-            class="carousel-item active swiper-container"
-            *ngFor="let img of gallery"
-          >
-            <img
-              [src]="img.image"
-              class="d-block w-100 swiper-slide"
-              alt="..."
-            />
-          </div>
-        </div>
-        <button
-          class="carousel-control-prev"
-          type="button"
-          data-bs-target="#carouselExampleFade"
-          data-bs-slide="prev"
-        >
-          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Previous</span>
-        </button>
-        <button
-          class="carousel-control-next"
-          type="button"
-          data-bs-target="#carouselExampleFade"
-          data-bs-slide="next"
-        >
-          <span class="carousel-control-next-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Next</span>
-        </button>
-      </div>
-      <button
-        class="carousel-control-prev"
-        type="button"
-        data-bs-target="#carouselExampleControls"
-        data-bs-slide="prev"
-      >
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
-      </button>
-      <button
-        class="carousel-control-next"
-        type="button"
-        data-bs-target="#carouselExampleControls"
-        data-bs-slide="next"
-      >
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
-      </button>
-    </div> -->
+
     <h4 class="subtitle animate-slide-up">Shuffle up and deal!</h4>
     <p class="description animate-slide-up">
       Your premier destination for exciting poker action in a welcoming
@@ -105,54 +47,11 @@
     </p>
   </div>
 
-  <!-- <ion-card class="schedule-card animate-fade-in animate-slide-up ion-padding">
-    <ion-card-content>
-      <ng-container *ngIf="isClubOpen === true else noSchedule">
-        <ng-container *ngFor="let day of schedule">
-          <ion-card-header>
-            <ion-card-title>Today's Schedule</ion-card-title>
-          </ion-card-header>
-          <h2 class="text-center mb-3">{{ day.day }}</h2>
-          <ng-container *ngFor="let game of day.games">
-            <div class="row">
-              <div class="col">
-                <h2><strong>{{ game.gameType }}</strong></h2>
-              </div>
-              <div class="col">
-                <h2 class="float-end"><strong>{{ game.limit }}</strong></h2>
-              </div>
-            </div>
-          </ng-container>
-          <p class="text-center mt-3">{{ day.time }}</p>
-          <ion-button
-            expand="block"
-            class="glowing-btn m-3"
-            href="/tabs/waitlist"
-          >
-            Join Cash Game Waitlist
-          </ion-button>
-        
-          <ion-button
-            *ngIf="toc_is_live === true"
-            expand="block"
-            class="glowing-btn m-3"
-            href="/tabs/pre-reg-toc"
-          >
-            Pre-registration for TOC
-          </ion-button>
-        </ng-container>
-      </ng-container>
-      <ng-template #noSchedule>
-        <ion-card-title class="text-center"
-          >We are currrently closed</ion-card-title
-        >
-      </ng-template>
-    </ion-card-content>
-  </ion-card> -->
-  <!-- ------------------ -->
   <ion-card class="schedule-card animate-fade-in animate-slide-up ion-padding">
     <ion-card-content>
-      <ng-container *ngIf="isClubOpen; else noSchedule">
+      <ng-container
+        *ngIf="(isWaitlistAcceptingEntries && activeOperationalSchedule) || toc_count > 0; else noSchedule"
+      >
         <ion-card-header>
           <ion-card-title class="text-center"
             ><ion-icon class="align-middle" name="calendar"></ion-icon> Today's
@@ -160,12 +59,12 @@
           >
         </ion-card-header>
 
-        <ng-container *ngFor="let day of schedule">
+        <ng-container *ngIf="activeOperationalSchedule">
           <h2 class="text-center mt-2 text-gold">
-            <strong>{{ day.day }}</strong>
+            <strong>{{ activeOperationalSchedule.day }}</strong>
           </h2>
 
-          <ng-container *ngFor="let game of day.games">
+          <ng-container *ngFor="let game of activeOperationalSchedule.games">
             <div class="row py-2 border-bottom">
               <div class="col">
                 <h3><strong>{{ game.gameType }}</strong></h3>
@@ -177,68 +76,67 @@
           </ng-container>
 
           <p class="text-center mt-3">
-            🕒 Starts at: <strong>{{ day.time }}</strong>
+            🕒 Starts at: <strong>{{ activeOperationalSchedule.time }}</strong>
           </p>
 
           <ion-button
             expand="block"
             class="glowing-btn m-3"
             href="/tabs/waitlist"
+            *ngIf="isWaitlistAcceptingEntries"
           >
             Join Cash Game Waitlist
           </ion-button>
+        </ng-container>
 
+        <p class="text-center mt-3" *ngIf="toc_count > 0 && startTime">
+          🕒 Pre-Registration for tournament starts on {{toc.day_date}} at:
+          <strong>{{ startTime }}</strong>
+        </p>
+
+        <ng-container *ngIf="toc_is_live">
           <ion-button
-            *ngIf="toc_is_live"
             expand="block"
             class="glowing-btn m-3"
             href="/tabs/pre-reg-toc"
           >
-            Tournament Pre-Registeration
-          </ion-button>
-        </ng-container>
+            Tournament <br />Pre-Registeration
+          </ion-button></ng-container
+        >
       </ng-container>
 
       <ng-template #noSchedule>
         <ion-card-title class="text-center text-danger">
-          🚪 We are currently closed
+          <ng-container
+            *ngIf="!isWaitlistAcceptingEntries && waitlistDisplayOpenTime && activeOperationalSchedule"
+          >
+            ⏳ Waitlist Opening Soon
+          </ng-container>
+          <ng-container
+            *ngIf="!isWaitlistAcceptingEntries && (!waitlistDisplayOpenTime || !activeOperationalSchedule)"
+          >
+            🚪 We are currently closed
+          </ng-container>
         </ion-card-title>
-        <p class="text-center mt-2">
-          There are no games scheduled for today. Please check back tomorrow or
-          follow us for updates.
-        </p>
+        <div class="text-center mt-2 info-text">
+          <ng-container
+            *ngIf="!isWaitlistAcceptingEntries && waitlistDisplayOpenTime && activeOperationalSchedule"
+          >
+            The waitlist for
+            <strong>{{activeOperationalSchedule.day}}</strong> opens at
+            <strong>{{ waitlistDisplayOpenTime }}</strong>.<br />
+            Club operating hours today: {{ activeOperationalSchedule.time }}.<br />
+            Stay tuned — we’ll be ready for you soon!
+          </ng-container>
+          <ng-container
+            *ngIf="!isWaitlistAcceptingEntries && (!waitlistDisplayOpenTime || !activeOperationalSchedule)"
+          >
+            <!-- We are not currently accepting waitlist entries. Please check the
+            schedule for updates or try again later. -->
+            Next Game Night: <strong>{{nextGame}}</strong>
+          </ng-container>
+        </div>
       </ng-template>
     </ion-card-content>
   </ion-card>
-
-  <!-- <div *ngFor="let game of todayGames" class="ion-padding fade-in">
-    <h3 class="golden-text">{{game.gameType}}</h3>
-    <p class="info-text">
-      <ion-icon name="checkmark"></ion-icon> indicates the player is checked in
-      at the club
-    </p>
-
-    <ion-list class="waitlist-list" *ngIf="waitlist.length > 0">
-      <ng-container *ngFor="let entry of waitlist">
-        <ng-container *ngIf="entry.gameType == game.gameType; else noData">
-          <ion-item
-            class="waitlist-item rounded-bottom border-bottom border-warning"
-          >
-            <ion-label>
-              {{ entry.firstName }} {{ entry.lastInitial }}
-              <span style="float: right" *ngIf="entry.checkedIn == true">
-                <ion-icon name="checkmark"></ion-icon>
-              </span>
-            </ion-label>
-          </ion-item>
-        </ng-container>
-      </ng-container>
-    </ion-list>
-
-    <ng-template #noData>
-      <p class="info-text">
-        No players on the waitlist yet. Be the first to join!
-      </p>
-    </ng-template>
-  </div> -->
 </ion-content>

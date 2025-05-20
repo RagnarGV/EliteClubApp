@@ -47,9 +47,9 @@ export class FANDQPage implements OnInit {
     },
     {
       id: '3',
-      question: 'When does the Tournament of Champions waitlist open?',
+      question: 'When does the pre-registration list for tournaments open?',
       answer:
-        'The Tournament of Champions waitlist usually opens 2 hours before the club’s scheduled opening time.',
+        'The pre-registration for tournament waitlist usually opens 2 hours before the club’s scheduled opening time.',
     },
     {
       id: '4',
